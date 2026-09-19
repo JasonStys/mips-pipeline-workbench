@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "status": "pass",
+  "checks": [
+    {
+      "name": "required-files",
+      "status": "pass",
+      "evidence": "19 required files present"
+    },
+    {
+      "name": "source-headers",
+      "status": "pass",
+      "evidence": "26 authored source files contain headers"
+    },
+    {
+      "name": "workflow-pins",
+      "status": "pass",
+      "evidence": "2 workflows use immutable action references"
+    },
+    {
+      "name": "secret-patterns",
+      "status": "pass",
+      "evidence": "57 text files scanned for credential patterns"
+    },
+    {
+      "name": "bounded-execution",
+      "status": "pass",
+      "evidence": "step, cycle, and retained-trace bounds found"
+    }
+  ]
+}

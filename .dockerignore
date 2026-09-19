@@ -1,0 +1,12 @@
+.git
+.github
+target
+build
+web/node_modules
+web/build
+web/dist
+docs
+examples
+tests
+*.md
+

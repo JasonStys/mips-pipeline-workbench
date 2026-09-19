@@ -1,0 +1,16 @@
+{
+  "name": "mips-pipeline-workbench-repository",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Repository-level validation scripts for the MIPS Pipeline Workbench",
+  "type": "module",
+  "scripts": {
+    "code-index": "node scripts/generate-code-index.mjs",
+    "code-index:check": "node scripts/generate-code-index.mjs --check",
+    "validate": "node scripts/validate-repository.mjs"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}
+

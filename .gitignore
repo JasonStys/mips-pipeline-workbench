@@ -1,0 +1,17 @@
+# Rust outputs
+/target/
+
+# Web outputs and dependencies
+/web/node_modules/
+/web/build/
+/web/dist/
+
+# Generated local reports
+/build/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
