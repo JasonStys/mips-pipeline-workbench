@@ -37,6 +37,16 @@ The hazard fixture finished with `$t2 = 13`, `$t3 = 13`, `$t4 = 26`, `$t5 = 21`,
 
 Automated browser accessibility and cross-browser tests are not included in version 1.0; this gap is stated in [limitations](../limitations.md).
 
-## CI acceptance
+## Hosted verification
 
-Publication is complete only when GitHub reports success for CI and CodeQL on the published commit. This report records local evidence and will be updated with links after remote validation.
+The published code commit `e325b51` passed every hosted gate:
+
+- [CI run 35413132729](https://github.com/JasonStys/mips-pipeline-workbench/actions/runs/35413132729): success.
+  - Rust 1.98 formatting, warning-free Clippy, 22 tests, locked release build, and trace reproducibility passed on Ubuntu 24.04 and Windows 2025.
+  - The TypeScript visualizer's locked install, dependency audit, 4 tests, production build, smoke check, and artifact upload passed.
+  - Repository policy and generated-evidence freshness passed.
+  - The multi-stage, non-root container image built successfully on the hosted BuildKit runner. The local Docker daemon was unavailable, so this hosted build is the container evidence.
+- [CodeQL run 35413132819](https://github.com/JasonStys/mips-pipeline-workbench/actions/runs/35413132819): success for the JavaScript/TypeScript security-and-quality query suite.
+- Initial Cargo, npm, GitHub Actions, and Docker Dependabot update jobs all completed successfully and opened no update pull requests.
+
+The follow-up commit changes this report only; it does not alter the validated implementation.
