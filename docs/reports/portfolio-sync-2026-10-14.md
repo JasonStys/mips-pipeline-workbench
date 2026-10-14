@@ -13,6 +13,9 @@ from the reviewed manifests. No audit or coverage budget is lowered.
 
 Coordinated CodeQL steps use the same reviewed immutable release where present.
 Source and generated-symbol contracts remain enforced by the existing workflows.
+The initial policy check detected a stale generated scan count after this report
+was added (57 versus 58 text files). The policy evidence was regenerated; the
+credential scan and exact generated-evidence drift gate remain enabled.
 The complete candidate must pass its applicable native CI before promotion.
 [Inspect candidate checks](https://github.com/JasonStys/mips-pipeline-workbench/actions?query=branch%3Amaintenance%2Fportfolio-sync-20261014).
 
