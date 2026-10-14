@@ -1,5 +1,5 @@
 # File: Builds the Rust CLI and static trace visualizer into a minimal non-root runtime image.
-FROM rust:1.98.0-bookworm AS rust-build
+FROM rust:1.98.1-bookworm AS rust-build
 WORKDIR /source
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src

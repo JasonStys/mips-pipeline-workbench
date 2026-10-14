@@ -20,7 +20,7 @@
     {
       "name": "secret-patterns",
       "status": "pass",
-      "evidence": "57 text files scanned for credential patterns"
+      "evidence": "58 text files scanned for credential patterns"
     },
     {
       "name": "bounded-execution",
