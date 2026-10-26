@@ -5,7 +5,7 @@ COPY Cargo.toml Cargo.lock ./
 COPY src ./src
 RUN cargo build --locked --release
 
-FROM node:24.22.0-bookworm-slim AS web-build
+FROM node:24.22.1-bookworm-slim AS web-build
 WORKDIR /source/web
 COPY web/package.json web/package-lock.json web/tsconfig.json ./
 RUN npm ci
