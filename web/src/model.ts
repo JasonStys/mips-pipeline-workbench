@@ -36,13 +36,25 @@ const MAX_LABEL_LENGTH = 240;
 /** Validates unknown JSON at the trust boundary and returns a deeply typed trace. */
 export function parsePipelineTrace(input: unknown): PipelineTrace {
   const root = expectRecord(input, "trace");
+  expectKeys(
+    root,
+    ["schemaVersion", "summary", "cycles", "registers"],
+    "trace",
+  );
   if (root.schemaVersion !== 1) {
     throw new Error("Unsupported trace schema version");
   }
   const summaryValue = expectRecord(root.summary, "summary");
+  expectKeys(
+    summaryValue,
+    ["cycles", "retired", "stalls", "flushes", "cpi", "finalPc"],
+    "summary",
+  );
   const cyclesValue = root.cycles;
   if (!Array.isArray(cyclesValue) || cyclesValue.length > MAX_CYCLES) {
-    throw new Error(`cycles must be an array with at most ${MAX_CYCLES} entries`);
+    throw new Error(
+      `cycles must be an array with at most ${MAX_CYCLES} entries`,
+    );
   }
   if (!Array.isArray(root.registers) || root.registers.length !== 32) {
     throw new Error("registers must contain exactly 32 values");
@@ -63,6 +75,18 @@ export function parsePipelineTrace(input: unknown): PipelineTrace {
   if (summary.cycles < cycles.length) {
     throw new Error("summary.cycles cannot be smaller than the retained trace");
   }
+  let previousCycle = 0;
+  for (const cycle of cycles) {
+    if (cycle.cycle <= previousCycle || cycle.cycle > summary.cycles) {
+      throw new Error(
+        "Retained cycle numbers must be positive, strictly increasing and within summary.cycles",
+      );
+    }
+    previousCycle = cycle.cycle;
+  }
+  if (registers[0] !== 0) {
+    throw new Error("registers[0] ($zero) must be zero");
+  }
   return { schemaVersion: 1, summary, cycles, registers };
 }
 
@@ -81,15 +105,37 @@ export function stageValue(value: string | null): string {
 
 function parseCycle(value: unknown, index: number): CycleTrace {
   const cycle = expectRecord(value, `cycles[${index}]`);
+  expectKeys(
+    cycle,
+    ["cycle", "fetch", "decode", "execute", "memory", "writeBack", "event"],
+    `cycles[${index}]`,
+  );
   return {
     cycle: expectNonNegativeInteger(cycle.cycle, `cycles[${index}].cycle`),
     fetch: expectNullableLabel(cycle.fetch, `cycles[${index}].fetch`),
     decode: expectNullableLabel(cycle.decode, `cycles[${index}].decode`),
     execute: expectNullableLabel(cycle.execute, `cycles[${index}].execute`),
     memory: expectNullableLabel(cycle.memory, `cycles[${index}].memory`),
-    writeBack: expectNullableLabel(cycle.writeBack, `cycles[${index}].writeBack`),
+    writeBack: expectNullableLabel(
+      cycle.writeBack,
+      `cycles[${index}].writeBack`,
+    ),
     event: expectNullableLabel(cycle.event, `cycles[${index}].event`),
   };
+}
+
+/** Rejects extensions and misspelled properties instead of silently discarding producer evidence. */
+function expectKeys(
+  value: Record<string, unknown>,
+  keys: readonly string[],
+  field: string,
+): void {
+  for (const key of Object.keys(value)) {
+    if (!keys.includes(key))
+      throw new Error(
+        `${field} contains unsupported field ${key.slice(0, 80)}`,
+      );
+  }
 }
 
 function expectRecord(value: unknown, field: string): Record<string, unknown> {
@@ -130,4 +176,3 @@ function expectUint32(value: unknown, field: string): number {
   }
   return integer;
 }
-

@@ -31,6 +31,8 @@ pub struct PipelineResult {
     pub retired: u64,
     pub stalls: u64,
     pub flushes: u64,
+    /// Total executed cycles, independent of how much evidence was retained.
+    pub total_cycles: u64,
     pub cycles: Vec<PipelineCycle>,
 }
 
@@ -39,7 +41,7 @@ impl PipelineResult {
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
     pub fn cpi(&self) -> f64 {
-        if self.retired == 0 { 0.0 } else { self.cycles.len() as f64 / self.retired as f64 }
+        if self.retired == 0 { 0.0 } else { self.total_cycles as f64 / self.retired as f64 }
     }
 
     /// Serializes the bounded trace and summary without adding a runtime JSON dependency.
@@ -49,7 +51,7 @@ impl PipelineResult {
         let _ = write!(
             output,
             "{{\"schemaVersion\":1,\"summary\":{{\"cycles\":{},\"retired\":{},\"stalls\":{},\"flushes\":{},\"cpi\":{:.4},\"finalPc\":{}}},\"cycles\":[",
-            self.cycles.len(),
+            self.total_cycles,
             self.retired,
             self.stalls,
             self.flushes,
@@ -252,6 +254,7 @@ impl PipelineSimulator {
                     retired,
                     stalls,
                     flushes,
+                    total_cycles: cycle_number,
                     cycles,
                 });
             }

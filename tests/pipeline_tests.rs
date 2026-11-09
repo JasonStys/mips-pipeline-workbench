@@ -71,6 +71,26 @@ fn bounds_pipeline_cycles() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 #[test]
+fn trace_retention_does_not_change_cycle_count_cpi_or_architectural_result()
+-> Result<(), Box<dyn std::error::Error>> {
+    let program = assemble(include_str!("../examples/hazard-demo.asm"))?;
+    let full = PipelineSimulator::default().run(&program)?;
+    assert_eq!(full.total_cycles, 18);
+    assert_eq!(full.retired, 11);
+    for limit in [0, 1, 3] {
+        let result = PipelineSimulator { max_trace_cycles: limit, ..PipelineSimulator::default() }
+            .run(&program)?;
+        assert_eq!(result.cycles.len(), limit);
+        assert_eq!(result.total_cycles, 18);
+        assert!((result.cpi() - 18.0 / 11.0).abs() < f64::EPSILON);
+        assert_eq!(result.registers, full.registers);
+        assert_eq!(result.memory, full.memory);
+        assert!(result.to_json().contains("\"summary\":{\"cycles\":18"));
+    }
+    Ok(())
+}
+
+#[test]
 fn generated_straight_line_programs_match_reference() -> Result<(), Box<dyn std::error::Error>> {
     for seed in 1..=128_i16 {
         let source = format!(

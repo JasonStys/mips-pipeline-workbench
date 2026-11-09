@@ -72,7 +72,7 @@ fn command_pipeline(arguments: &[String]) -> Result<(), Box<dyn Error>> {
     let result = simulator.run(&program)?;
     println!(
         "cycles={} retired={} cpi={:.3} stalls={} flushes={}",
-        result.cycles.len(),
+        result.total_cycles,
         result.retired,
         result.cpi(),
         result.stalls,
@@ -108,7 +108,7 @@ fn command_benchmark(arguments: &[String]) -> Result<(), Box<dyn Error>> {
         json_escape(&arguments[0]),
         BENCHMARK_ITERATIONS,
         per_run_micros,
-        result.cycles.len(),
+        result.total_cycles,
         result.retired,
         result.cpi()
     );
