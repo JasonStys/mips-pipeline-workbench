@@ -59,30 +59,27 @@ This index supplies exact line locations while source-file headers stay readable
 
 | Line | Kind | Declaration |
 |---:|---|---|
-| 10 | state | `root` |
-| 11 | state | `reportPath` |
-| 12 | state | `requiredPaths` |
-| 33 | state | `authoredExtensions` |
-| 34 | state | `ignoredDirectories` |
-| 35 | state | `checks` |
-| 39 | state | `metadata` |
-| 47 | state | `files` |
-| 51 | state | `authored` |
-| 53 | state | `prefix` |
-| 62 | state | `workflows` |
-| 64 | state | `text` |
-| 66 | state | `reference` |
-| 76 | state | `textFiles` |
-| 77 | state | `patterns` |
-| 84 | state | `text` |
-| 93 | state | `pipeline` |
-| 94 | state | `machine` |
-| 104 | state | `report` |
-| 116 | function | `record` |
-| 128 | function | `collectFiles` |
-| 133 | state | `path` |
-| 142 | function | `display` |
-| 146 | function | `extensionOf` |
+| 11 | state | `root` |
+| 12 | state | `reportPath` |
+| 18 | state | `requiredPaths` |
+| 39 | state | `authoredExtensions` |
+| 48 | state | `checks` |
+| 52 | state | `metadata` |
+| 61 | state | `files` |
+| 74 | state | `authored` |
+| 78 | state | `prefix` |
+| 92 | state | `workflows` |
+| 96 | state | `text` |
+| 98 | state | `reference` |
+| 110 | state | `textFiles` |
+| 114 | state | `patterns` |
+| 121 | state | `text` |
+| 130 | state | `pipeline` |
+| 131 | state | `machine` |
+| 144 | state | `report` |
+| 156 | function | `record` |
+| 168 | function | `display` |
+| 172 | function | `extensionOf` |
 
 ## `src/assembler.rs`
 
