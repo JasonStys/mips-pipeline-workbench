@@ -29,7 +29,9 @@ npm --prefix web ci --ignore-scripts
 npm --prefix web test
 ```
 
-Open `web/dist/index.html` through any local static-file server to explore the checked-in trace. The page does not require an API, account, analytics service, or remote execution endpoint.
+Open `web/dist/index.html` through any local static-file server, then choose `trace.json` under **Explore your own trace**. Files remain local to the browser; there is no upload or execution endpoint. The shipped demo remains available with **Reload demonstration**. Use the slider, cycle-number jump, next-event control or Play/Pause to inspect instruction labels and hazards. Final registers describe the completed simulation, even when only a bounded prefix was retained.
+
+See the [trace explorer guide](docs/trace-explorer.md) for controls, file bounds, validation messages and changed-file responsibilities.
 
 Run the complete local gate on Linux, macOS, or WSL:
 
@@ -45,7 +47,8 @@ Equivalent individual commands are listed in [docs/testing.md](docs/testing.md).
 - **Reference interpreter:** wrapping integer operations, signed comparison, sparse zero-filled word memory, branch/jump behavior, immutable `$zero`, alignment checks, and a caller-controlled step limit.
 - **Five-stage pipeline:** bounded IF/ID, ID/EX, EX/MEM, and MEM/WB latches; EX/MEM and MEM/WB forwarding; a one-cycle load-use interlock; taken-control flushes; draining after `halt`; and a bounded trace buffer.
 - **Cache model:** configurable fixed set count, associativity, power-of-two line size, deterministic LRU replacement, and hit/miss statistics.
-- **Trace visualizer:** runtime schema validation, cycle slider and arrow-key control, semantic tables, reduced-motion handling, responsive layout, final register state, and a 90 KB production size budget.
+- **Trace visualizer:** strict local JSON/UTF-8 import (8 MiB / 10,000 cycles), atomic rejection of invalid files, play/pause, cycle/hazard navigation, editable-field keyboard guards, responsive semantic tables with a 100-row DOM window, and a 90 KB production size budget.
+- **Truthful timing:** total cycle count and CPI remain independent of retained trace length, including when zero cycles were retained. Imported files are schema-validated, not certified execution evidence.
 - **Engineering evidence:** deterministic fixtures, property-style operand generation, negative tests, reference/pipeline differential tests, immutable CI actions, CodeQL, dependency audits, and container builds.
 
 ## Supported instructions
@@ -106,7 +109,7 @@ The two execution paths share instruction definitions and encoding but not execu
 | Pipeline cycle | `O(1)` | `O(m + t)` | four fixed latches; retained trace capped by `max_trace_cycles` |
 | Cache access | `O(w)` | `O(sets × w)` | `w` ways; constant for fixed associativity |
 | Trace validation | `O(c + r)` | `O(c + r)` | browser rejects over 10,000 cycles; exactly 32 registers |
-| UI cycle selection | `O(1)` plus row highlighting | `O(c)` DOM | trace is deliberately bounded before rendering |
+| UI cycle selection | `O(c)` event availability plus `O(w)` rendering | `O(c)` data / `O(w)` DOM | `w = 100`; no full-trace DOM rendering |
 
 Execution has a default 100,000-step/cycle safety limit. Cache dimensions, trace length, instruction operands, addresses, and external JSON are validated before use.
 
@@ -114,8 +117,8 @@ Execution has a default 100,000-step/cycle safety limit. Cache dimensions, trace
 
 The current local verification result is recorded in [docs/reports/validation.md](docs/reports/validation.md):
 
-- 22 Rust tests across assembler, ISA properties, interpreter behavior, cache replacement, hazards, bounds, and differential execution.
-- 4 TypeScript tests for trace validation and navigation behavior.
+- 23 Rust tests across assembler, ISA properties, interpreter behavior, cache replacement, hazards, bounds, differential execution and retention-independent timing.
+- 11 TypeScript tests for strict trace/file validation and navigation helpers; four real-browser user journeys cover import, playback, failed-import preservation, text-only labels, mobile layout and 10,000-cycle rendering.
 - 10,000 generated operand sets exercised across every encodable instruction family.
 - Warning-free `rustfmt`, Clippy `all`/`pedantic`/`nursery`, locked release build, npm audit, TypeScript strict mode, production smoke test, code-index freshness, and repository-policy validation.
 

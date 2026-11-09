@@ -2,6 +2,12 @@
 
 All notable changes follow semantic versioning and are recorded here.
 
+## Unreleased - 2026-11-09
+
+- Strict bounded local trace import, useful playback/cycle/hazard controls, safe error recovery and a 100-row table window.
+- File/UTF-8/schema regressions and real-browser desktop/mobile import/navigation journeys in CI.
+- Correct total cycles and CPI independently of retained evidence length, verified at trace caps 0, 1 and 3.
+
 ## [1.0.0] - 2026-09-18
 
 ### Added

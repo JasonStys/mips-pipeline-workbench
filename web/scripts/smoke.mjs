@@ -6,7 +6,14 @@
 import { readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 
-const requiredFiles = ["index.html", "demo-trace.json", "assets/app.js", "assets/model.js", "assets/styles.css"];
+const requiredFiles = [
+  "index.html",
+  "demo-trace.json",
+  "assets/app.js",
+  "assets/model.js",
+  "assets/import.js",
+  "assets/styles.css",
+];
 const byteBudget = 90_000;
 let totalBytes = 0;
 
@@ -20,13 +27,20 @@ for (const relativePath of requiredFiles) {
 }
 
 const html = await readFile(resolve("dist", "index.html"), "utf8");
-for (const marker of ["<main id=\"main-content\">", "aria-live=\"polite\"", "assets/app.js"]) {
+for (const marker of [
+  '<main id="main-content">',
+  'aria-live="polite"',
+  "assets/app.js",
+]) {
   if (!html.includes(marker)) {
     throw new Error(`production HTML is missing ${marker}`);
   }
 }
 if (totalBytes > byteBudget) {
-  throw new Error(`production assets use ${totalBytes} bytes, exceeding the ${byteBudget}-byte budget`);
+  throw new Error(
+    `production assets use ${totalBytes} bytes, exceeding the ${byteBudget}-byte budget`,
+  );
 }
-console.log(`production smoke passed: ${requiredFiles.length} files, ${totalBytes} bytes`);
-
+console.log(
+  `production smoke passed: ${requiredFiles.length} files, ${totalBytes} bytes`,
+);

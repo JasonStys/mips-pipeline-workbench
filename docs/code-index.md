@@ -59,30 +59,27 @@ This index supplies exact line locations while source-file headers stay readable
 
 | Line | Kind | Declaration |
 |---:|---|---|
-| 10 | state | `root` |
-| 11 | state | `reportPath` |
-| 12 | state | `requiredPaths` |
-| 33 | state | `authoredExtensions` |
-| 34 | state | `ignoredDirectories` |
-| 35 | state | `checks` |
-| 39 | state | `metadata` |
-| 47 | state | `files` |
-| 51 | state | `authored` |
-| 53 | state | `prefix` |
-| 62 | state | `workflows` |
-| 64 | state | `text` |
-| 66 | state | `reference` |
-| 76 | state | `textFiles` |
-| 77 | state | `patterns` |
-| 84 | state | `text` |
-| 93 | state | `pipeline` |
-| 94 | state | `machine` |
-| 104 | state | `report` |
-| 116 | function | `record` |
-| 128 | function | `collectFiles` |
-| 133 | state | `path` |
-| 142 | function | `display` |
-| 146 | function | `extensionOf` |
+| 11 | state | `root` |
+| 12 | state | `reportPath` |
+| 18 | state | `requiredPaths` |
+| 39 | state | `authoredExtensions` |
+| 48 | state | `checks` |
+| 52 | state | `metadata` |
+| 61 | state | `files` |
+| 74 | state | `authored` |
+| 78 | state | `prefix` |
+| 92 | state | `workflows` |
+| 96 | state | `text` |
+| 98 | state | `reference` |
+| 110 | state | `textFiles` |
+| 114 | state | `patterns` |
+| 121 | state | `text` |
+| 130 | state | `pipeline` |
+| 131 | state | `machine` |
+| 144 | state | `report` |
+| 156 | function | `record` |
+| 168 | function | `display` |
+| 172 | function | `extensionOf` |
 
 ## `src/assembler.rs`
 
@@ -206,31 +203,31 @@ This index supplies exact line locations while source-file headers stay readable
 |---:|---|---|
 | 15 | type | `PipelineCycle` |
 | 27 | type | `PipelineResult` |
-| 37 | implementation | `PipelineResult` |
-| 41 | function | `cpi` |
-| 47 | function | `to_json` |
-| 86 | type | `PipelineError` |
-| 92 | implementation | `Display` |
-| 93 | function | `fmt` |
-| 104 | implementation | `Error` |
-| 106 | implementation | `From` |
-| 107 | function | `from` |
-| 112 | implementation | `From` |
-| 113 | function | `from` |
-| 119 | type | `StageInstruction` |
-| 125 | type | `ExecuteOutput` |
-| 133 | type | `MemoryOutput` |
-| 141 | type | `PipelineSimulator` |
-| 146 | implementation | `Default` |
-| 147 | function | `default` |
-| 152 | implementation | `PipelineSimulator` |
-| 157 | function | `run` |
-| 264 | function | `memory_stage` |
-| 283 | function | `execute_stage` |
-| 333 | function | `forwarded_value` |
-| 356 | function | `has_load_use_hazard` |
-| 373 | function | `stage_label` |
-| 377 | function | `push_json_field` |
+| 39 | implementation | `PipelineResult` |
+| 43 | function | `cpi` |
+| 49 | function | `to_json` |
+| 88 | type | `PipelineError` |
+| 94 | implementation | `Display` |
+| 95 | function | `fmt` |
+| 106 | implementation | `Error` |
+| 108 | implementation | `From` |
+| 109 | function | `from` |
+| 114 | implementation | `From` |
+| 115 | function | `from` |
+| 121 | type | `StageInstruction` |
+| 127 | type | `ExecuteOutput` |
+| 135 | type | `MemoryOutput` |
+| 143 | type | `PipelineSimulator` |
+| 148 | implementation | `Default` |
+| 149 | function | `default` |
+| 154 | implementation | `PipelineSimulator` |
+| 159 | function | `run` |
+| 267 | function | `memory_stage` |
+| 286 | function | `execute_stage` |
+| 336 | function | `forwarded_value` |
+| 359 | function | `has_load_use_hazard` |
+| 376 | function | `stage_label` |
+| 380 | function | `push_json_field` |
 
 ## `tests/assembler_tests.rs`
 
@@ -278,7 +275,8 @@ This index supplies exact line locations while source-file headers stay readable
 | 44 | function | `forwarding_avoids_unnecessary_arithmetic_stalls` |
 | 54 | function | `trace_is_valid_json_shape_without_unbounded_content` |
 | 66 | function | `bounds_pipeline_cycles` |
-| 74 | function | `generated_straight_line_programs_match_reference` |
+| 74 | function | `trace_retention_does_not_change_cycle_count_cpi_or_architectural_result` |
+| 94 | function | `generated_straight_line_programs_match_reference` |
 
 ## `web/scripts/build.mjs`
 
@@ -293,55 +291,100 @@ This index supplies exact line locations while source-file headers stay readable
 |---:|---|---|
 | 9 | state | `allowedDirectories` |
 
+## `web/scripts/serve.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 9 | state | `files` |
+| 18 | state | `server` |
+| 19 | state | `target` |
+| 25 | state | `body` |
+
 ## `web/scripts/smoke.mjs`
 
 | Line | Kind | Declaration |
 |---:|---|---|
 | 9 | state | `requiredFiles` |
-| 10 | state | `byteBudget` |
-| 11 | state | `totalBytes` |
-| 14 | state | `absolutePath` |
-| 15 | state | `metadata` |
-| 22 | state | `html` |
+| 17 | state | `byteBudget` |
+| 18 | state | `totalBytes` |
+| 21 | state | `absolutePath` |
+| 22 | state | `metadata` |
+| 29 | state | `html` |
 
 ## `web/src/app.ts`
 
 | Line | Kind | Declaration |
 |---:|---|---|
-| 11 | type | `CycleTrace` |
-| 12 | type | `PipelineTrace` |
-| 15 | state | `REGISTER_NAMES` |
-| 22 | state | `currentCycle` |
-| 25 | function | `start` |
-| 26 | state | `status` |
-| 28 | state | `response` |
-| 32 | state | `trace` |
-| 45 | function | `renderSummary` |
-| 52 | function | `configureNavigation` |
-| 53 | state | `slider` |
-| 54 | state | `previous` |
-| 55 | state | `next` |
-| 69 | function | `renderCycle` |
-| 71 | state | `cycle` |
-| 84 | state | `event` |
-| 90 | function | `renderTable` |
-| 91 | state | `body` |
-| 92 | state | `fragment` |
-| 94 | state | `row` |
-| 108 | function | `renderRegisters` |
-| 109 | state | `list` |
-| 110 | state | `fragment` |
-| 112 | state | `term` |
-| 114 | state | `definition` |
-| 124 | function | `setStage` |
-| 125 | state | `element` |
-| 130 | function | `appendCell` |
-| 131 | state | `cell` |
-| 136 | function | `highlightTableRow` |
-| 138 | state | `selected` |
-| 146 | function | `setText` |
-| 150 | function | `requiredElement` |
-| 151 | state | `element` |
+| 10 | type | `CycleTrace` |
+| 11 | type | `PipelineTrace` |
+| 16 | state | `REGISTER_NAMES` |
+| 51 | state | `currentCycle` |
+| 52 | state | `activeTrace` |
+| 53 | state | `loadGeneration` |
+| 54 | state | `playbackTimer` |
+| 55 | state | `tableWindow` |
+| 56 | state | `TABLE_WINDOW_SIZE` |
+| 59 | function | `start` |
+| 64 | state | `input` |
+| 65 | state | `file` |
+| 67 | state | `generation` |
+| 70 | state | `trace` |
+| 92 | function | `loadDemo` |
+| 93 | state | `generation` |
+| 96 | state | `response` |
+| 99 | state | `trace` |
+| 108 | function | `adoptTrace` |
+| 122 | state | `status` |
+| 131 | function | `reportError` |
+| 132 | state | `status` |
+| 137 | function | `renderSummary` |
+| 145 | function | `configureNavigation` |
+| 162 | state | `next` |
+| 173 | state | `number` |
+| 176 | state | `index` |
+| 225 | function | `navigate` |
+| 228 | state | `status` |
+| 237 | function | `togglePlayback` |
+| 244 | state | `interval` |
+| 269 | function | `stopPlayback` |
+| 279 | function | `renderCycle` |
+| 280 | state | `trace` |
+| 283 | state | `cycle` |
+| 284 | state | `empty` |
+| 315 | state | `event` |
+| 322 | state | `window` |
+| 331 | function | `renderTable` |
+| 332 | state | `body` |
+| 333 | state | `fragment` |
+| 334 | state | `start` |
+| 338 | state | `row` |
+| 340 | state | `cell` |
+| 341 | state | `select` |
+| 368 | function | `renderRegisters` |
+| 369 | state | `list` |
+| 370 | state | `fragment` |
+| 372 | state | `term` |
+| 374 | state | `definition` |
+| 384 | function | `setStage` |
+| 385 | state | `element` |
+| 390 | function | `appendCell` |
+| 391 | state | `cell` |
+| 396 | function | `highlightTableRow` |
+| 400 | state | `selected` |
+| 405 | function | `setText` |
+| 409 | function | `requiredElement` |
+| 410 | state | `element` |
+
+## `web/src/import.ts`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 8 | state | `MAX_TRACE_BYTES` |
+| 11 | function | `parseTraceText` |
+| 15 | state | `value` |
+| 27 | function | `readTraceFile` |
+| 37 | state | `bytes` |
+| 41 | state | `text` |
 
 ## `web/src/model.ts`
 
@@ -354,21 +397,48 @@ This index supplies exact line locations while source-file headers stay readable
 | 34 | state | `MAX_LABEL_LENGTH` |
 | 37 | function | `parsePipelineTrace` |
 | 38 | state | `root` |
-| 42 | state | `summaryValue` |
-| 43 | state | `cyclesValue` |
-| 51 | state | `summary` |
-| 59 | state | `cycles` |
-| 60 | state | `registers` |
-| 70 | function | `clampCycle` |
-| 78 | function | `stageValue` |
-| 82 | function | `parseCycle` |
-| 83 | state | `cycle` |
-| 95 | function | `expectRecord` |
-| 102 | function | `expectNullableLabel` |
-| 112 | function | `expectNonNegativeInteger` |
-| 119 | function | `expectFiniteNumber` |
-| 126 | function | `expectUint32` |
-| 127 | state | `integer` |
+| 47 | state | `summaryValue` |
+| 53 | state | `cyclesValue` |
+| 63 | state | `summary` |
+| 71 | state | `cycles` |
+| 72 | state | `registers` |
+| 78 | state | `previousCycle` |
+| 94 | function | `clampCycle` |
+| 102 | function | `stageValue` |
+| 106 | function | `parseCycle` |
+| 107 | state | `cycle` |
+| 128 | function | `expectKeys` |
+| 141 | function | `expectRecord` |
+| 148 | function | `expectNullableLabel` |
+| 158 | function | `expectNonNegativeInteger` |
+| 165 | function | `expectFiniteNumber` |
+| 172 | function | `expectUint32` |
+| 173 | state | `integer` |
+
+## `web/tests/browser/workflows.spec.ts`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 8 | function | `trace` |
+| 32 | function | `upload` |
+| 61 | state | `jump` |
+| 106 | state | `release` |
+| 107 | state | `received` |
+| 108 | state | `completed` |
+| 109 | state | `held` |
+| 112 | state | `started` |
+| 115 | state | `responded` |
+| 146 | state | `requests` |
+
+## `web/tests/import.test.ts`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 15 | state | `TRACE` |
+| 31 | state | `bytes` |
+| 32 | state | `result` |
+| 42 | state | `read` |
+| 161 | state | `input` |
 
 ## `web/tests/model.test.ts`
 

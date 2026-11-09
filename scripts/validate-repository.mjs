@@ -4,11 +4,17 @@
  * State: deterministic policy inputs and generated docs/reports/repository-validation.json evidence.
  */
 
-import { readdir, readFile, stat, writeFile } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { relative, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const reportPath = resolve(root, "docs", "reports", "repository-validation.json");
+const reportPath = resolve(
+  root,
+  "docs",
+  "reports",
+  "repository-validation.json",
+);
 const requiredPaths = [
   "README.md",
   "LICENSE",
@@ -30,8 +36,15 @@ const requiredPaths = [
   ".github/workflows/ci.yml",
   ".github/workflows/codeql.yml",
 ];
-const authoredExtensions = new Set([".rs", ".ts", ".mjs", ".asm", ".css", ".html", ".sh"]);
-const ignoredDirectories = new Set([".git", "target", "node_modules", "build", "dist"]);
+const authoredExtensions = new Set([
+  ".rs",
+  ".ts",
+  ".mjs",
+  ".asm",
+  ".css",
+  ".html",
+  ".sh",
+]);
 const checks = [];
 
 await record("required-files", async () => {
@@ -44,28 +57,49 @@ await record("required-files", async () => {
   return `${requiredPaths.length} required files present`;
 });
 
-const files = [];
-await collectFiles(root, files);
+// Git is the deliverable boundary: ignored local test/cache output must never change committed evidence.
+const files = execFileSync(
+  "git",
+  ["-c", `safe.directory=${root}`, "ls-files", "--cached", "-z"],
+  {
+    cwd: root,
+    encoding: "utf8",
+  },
+)
+  .split("\0")
+  .filter(Boolean)
+  .map((path) => resolve(root, path));
 
 await record("source-headers", async () => {
-  const authored = files.filter((path) => authoredExtensions.has(extensionOf(path)));
+  const authored = files.filter((path) =>
+    authoredExtensions.has(extensionOf(path)),
+  );
   for (const path of authored) {
-    const prefix = (await readFile(path, "utf8")).split(/\r?\n/u).slice(0, 10).join("\n");
+    const prefix = (await readFile(path, "utf8"))
+      .split(/\r?\n/u)
+      .slice(0, 10)
+      .join("\n");
     if (!/\bFile:/u.test(prefix)) {
-      throw new Error(`${display(path)} lacks a File header in its first ten lines`);
+      throw new Error(
+        `${display(path)} lacks a File header in its first ten lines`,
+      );
     }
   }
   return `${authored.length} authored source files contain headers`;
 });
 
 await record("workflow-pins", async () => {
-  const workflows = files.filter((path) => display(path).startsWith(".github/workflows/"));
+  const workflows = files.filter((path) =>
+    display(path).startsWith(".github/workflows/"),
+  );
   for (const path of workflows) {
     const text = await readFile(path, "utf8");
     for (const match of text.matchAll(/^\s*uses:\s*([^\s#]+)/gmu)) {
       const reference = match[1] ?? "";
       if (!/@[0-9a-f]{40}$/u.test(reference)) {
-        throw new Error(`${display(path)} contains a mutable action reference: ${reference}`);
+        throw new Error(
+          `${display(path)} contains a mutable action reference: ${reference}`,
+        );
       }
     }
   }
@@ -73,7 +107,10 @@ await record("workflow-pins", async () => {
 });
 
 await record("secret-patterns", async () => {
-  const textFiles = files.filter((path) => !path.endsWith("package-lock.json") && !path.endsWith("Cargo.lock"));
+  const textFiles = files.filter(
+    (path) =>
+      !path.endsWith("package-lock.json") && !path.endsWith("Cargo.lock"),
+  );
   const patterns = [
     /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/u,
     /ghp_[A-Za-z0-9]{30,}/u,
@@ -92,7 +129,10 @@ await record("secret-patterns", async () => {
 await record("bounded-execution", async () => {
   const pipeline = await readFile(resolve(root, "src", "pipeline.rs"), "utf8");
   const machine = await readFile(resolve(root, "src", "machine.rs"), "utf8");
-  if (!pipeline.includes("max_cycles") || !pipeline.includes("max_trace_cycles")) {
+  if (
+    !pipeline.includes("max_cycles") ||
+    !pipeline.includes("max_trace_cycles")
+  ) {
     throw new Error("pipeline execution and trace bounds are required");
   }
   if (!machine.includes("max_steps")) {
@@ -125,20 +165,6 @@ async function record(name, operation) {
   }
 }
 
-async function collectFiles(directory, output) {
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) {
-      continue;
-    }
-    const path = resolve(directory, entry.name);
-    if (entry.isDirectory()) {
-      await collectFiles(path, output);
-    } else {
-      output.push(path);
-    }
-  }
-}
-
 function display(path) {
   return relative(root, path).replaceAll("\\", "/");
 }
@@ -146,4 +172,3 @@ function display(path) {
 function extensionOf(path) {
   return path.slice(path.lastIndexOf("."));
 }
-

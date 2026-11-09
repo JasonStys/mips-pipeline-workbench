@@ -8,7 +8,7 @@ The primary assets are developer workstation availability, repository integrity,
 
 - Reference execution defaults to 100,000 steps; pipeline execution defaults to 100,000 cycles.
 - Retained pipeline evidence defaults to 2,000 cycles, independent of execution duration.
-- Browser traces are limited to 10,000 cycles, exactly 32 registers, unsigned 32-bit numeric fields, and short labels.
+- Browser imports are size-checked before reading (8 MiB), decoded with strict UTF-8 and validated for 10,000 cycles, exactly 32 registers, unsigned values, short labels and increasing cycle IDs. Unknown schema fields are rejected. Only 100 rows are placed in the DOM.
 - Loads, stores, and instruction fetches enforce four-byte alignment.
 - Unknown opcodes and malformed source fail closed with typed diagnostics.
 - Browser values use `textContent`, never `innerHTML`.
@@ -26,7 +26,7 @@ The primary assets are developer workstation availability, repository integrity,
 | Infinite jump loop | caller-controlled step/cycle limit | work is consumed up to the limit |
 | Many distinct store addresses | run in an OS/container memory limit | sparse memory can grow once per store before execution stops |
 | Malformed/unknown word | decoder rejection | raw `.word` may intentionally create a later decode failure |
-| Oversized trace file | pre-render count and field limits | JSON parsing itself occurs before validation; host response size should also be limited if remotely served |
+| Oversized trace file | byte cap before reading; encoded byte check before parsing; field/count limits before rendering | a malicious replacement of the shipped asset still requires static-host response limits |
 | HTML/script in trace labels | text-only DOM assignment | none known within the static UI |
 | Mutable CI dependency | immutable full-SHA pins | compromised upstream commit before selection remains a review risk |
 

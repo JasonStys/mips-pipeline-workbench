@@ -12,8 +12,11 @@ const assets = resolve(distribution, "assets");
 await rm(distribution, { recursive: true, force: true });
 await mkdir(assets, { recursive: true });
 await cp(resolve("public", "index.html"), resolve(distribution, "index.html"));
-await cp(resolve("public", "demo-trace.json"), resolve(distribution, "demo-trace.json"));
+await cp(
+  resolve("public", "demo-trace.json"),
+  resolve(distribution, "demo-trace.json"),
+);
 await cp(resolve("build", "src", "app.js"), resolve(assets, "app.js"));
 await cp(resolve("build", "src", "model.js"), resolve(assets, "model.js"));
+await cp(resolve("build", "src", "import.js"), resolve(assets, "import.js"));
 await cp(resolve("src", "styles.css"), resolve(assets, "styles.css"));
-
