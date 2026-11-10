@@ -1,4 +1,4 @@
-# Local trace exploration verification — 2026-11-09
+# Local trace exploration verification â€” 2026-11-09
 
 The visualizer now accepts local version-one JSON traces without uploading or executing them. Imports check advertised/actual byte lengths, strict UTF-8, supported fields, ordered unique cycle IDs, register invariants and bounded labels before replacing the current workspace. A malformed file leaves the previously selected trace and cycle intact. A generation guard prevents a slow demo request overwriting a later local choice.
 
@@ -12,8 +12,8 @@ An existing Rust bug counted retained trace rows as total cycles and CPI. The si
 
 On Windows with Rust 1.98 and Node 24: 23 Rust tests, 11 TypeScript tests and four real Microsoft Edge/Playwright browser journeys passed. Rust formatting, warning-free source Clippy, locked Release build, strict TypeScript compilation, distribution size smoke, code-index and repository policy passed. The pinned dependency install reported zero vulnerabilities. The initial sandboxed browser process was stopped through its owned session and rerun successfully with scoped process permissions; no unrelated service or browser was terminated.
 
-Browser journeys cover local import, instruction/event inspection, jump/slider keyboard focus, invalid-jump recovery, finite playback/pause, asynchronous load races, malformed-file preservation/recovery, text-only malicious labels, absence of upload requests, mobile width, 10,000-cycle bounded rendering, empty evidence and demo reload. Tested viewports were 1280×900 and 390×844. These are real DOM/browser interactions; they do not certify screen-reader behavior.
+Browser journeys cover local import, instruction/event inspection, jump/slider keyboard focus, invalid-jump recovery, finite playback/pause, asynchronous load races, malformed-file preservation/recovery, text-only malicious labels, absence of upload requests, mobile width, 10,000-cycle bounded rendering, empty evidence and demo reload. Tested viewports were 1280Ã—900 and 390Ã—844. These are real DOM/browser interactions; they do not certify screen-reader behavior.
 
-CI now installs Chromium and runs the same journey suite after the existing locked compile/unit/smoke gates. No GitHub Actions were triggered by this subtask, and the local Docker installation was left unchanged. Imported evidence remains producer-supplied: schema validity does not establish execution correctness, and final registers are not per-cycle snapshots.
+CI now installs Chromium and runs the same journey suite after the existing locked compile/unit/smoke gates. This dated local session did not trigger GitHub Actions, and the local Docker installation was left unchanged. Imported evidence remains producer-supplied: schema validity does not establish execution correctness, and final registers are not per-cycle snapshots.
 
 Machine-readable evidence: [practical-workflows-2026-11-09.json](practical-workflows-2026-11-09.json).

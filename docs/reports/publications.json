@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "project": "mips-pipeline-workbench",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "39e2997102cf0d40068c3d88b58178966fb52c1c",
+  "sourceUrl": "https://github.com/JasonStys/mips-pipeline-workbench/tree/39e2997102cf0d40068c3d88b58178966fb52c1c",
+  "functionalEvidenceBaseline": "39e2997102cf0d40068c3d88b58178966fb52c1c",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42701673466,
+      "event": "push",
+      "headSha": "39e2997102cf0d40068c3d88b58178966fb52c1c",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mips-pipeline-workbench/actions/runs/42701673466"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42701673397,
+      "event": "push",
+      "headSha": "39e2997102cf0d40068c3d88b58178966fb52c1c",
+      "name": "CI",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/mips-pipeline-workbench/actions/runs/42701673397"
+    }
+  ],
+  "summary": "Import bounded traces, preserve valid state on failed import and navigate cycles/hazards with a bounded visible window. Fixed cycle/CPI counts when trace capture is capped.",
+  "rationale": "Improves processor-debugging usability and keeps performance measurements independent of display limits.",
+  "limitations": [
+    "Imported trace schema validity is not execution proof; the viewer does not rerun imported programs.",
+    "Displayed final registers are end-state values, not selected-cycle register snapshots.",
+    "Full-run cycle/CPI metrics do not imply every cycle was retained in a capped trace.",
+    "Source-first project with current package/service validation; no public native desktop application release is supplied."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 46304,
+      "sha256": "7fca662fd2082fe85519037b3e7a226d4fe0984264bce6d25185f7d4e7f9c41b",
+      "sourceBaseline": "39e2997102cf0d40068c3d88b58178966fb52c1c",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 7,
+        "renderedPageSha256": {
+          "page-1.png": "2b3955861ec18c0a097d62a21485597a502251245275c70dbadf34ad4d39b16f",
+          "page-2.png": "f8780f7c6775ae930c099955c28aad1118e0765215f83a462e207596a9c68fe0",
+          "page-3.png": "cf7ce69bac39dd2f476c4bf4bca709092cb86513a6f93d26275dbb24d35c55a3",
+          "page-4.png": "f6b50b5b3308e53cf9fa2e94300f20bf2ae58ae56e96cb7ae167a3a1cb93e365",
+          "page-5.png": "6945cd5a5d45f5fc6290513cb8c4be70923d4c51b50b5edd146df7a8f6c4882d",
+          "page-6.png": "b23a55c9778c8c622723380d4b12f04be88fab019ac68b84b4bfebd8b61841bd",
+          "page-7.png": "144af696e6eddd221de8c3f96ac5bf8819f4180b53a0e9f58780df170cb33ec3"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}
