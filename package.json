@@ -7,7 +7,7 @@
   "scripts": {
     "code-index": "node scripts/generate-code-index.mjs",
     "code-index:check": "node scripts/generate-code-index.mjs --check",
-    "validate": "node scripts/validate-repository.mjs"
+    "validate": "node --test scripts/publication-text.test.mjs scripts/browser-host-proof.test.mjs scripts/browser-host-policy.test.mjs && node scripts/validate-repository.mjs"
   },
   "engines": {
     "node": ">=24 <25"

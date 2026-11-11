@@ -45,6 +45,8 @@ jobs:
     name: TypeScript visualizer
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.runtime/ci-playwright
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -62,8 +64,12 @@ jobs:
         run: npm --prefix web test
       - name: Verify production distribution
         run: npm --prefix web run smoke
-      - name: Install browser test runtime
-        run: npm --prefix web exec -- playwright install --with-deps chromium
+      - name: Install exact locked browser without redundant package installation
+        timeout-minutes: 5
+        run: npm --prefix web exec -- playwright install chromium
+      - name: Prove actual browser host libraries, font and responsive layout
+        timeout-minutes: 2
+        run: node scripts/browser-host-proof.mjs
       - name: Exercise local import and playback workflows
         run: npm --prefix web run test:browser
       - name: Upload static evidence

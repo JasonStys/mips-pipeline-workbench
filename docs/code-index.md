@@ -363,6 +363,59 @@ This index supplies exact line locations while source-file headers stay readable
 | 233 | parameter | `trace` |
 | 233 | parameter | `value` |
 
+## `scripts/browser-host-policy.test.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 6 | state | `workflow` |
+| 7 | state | `desktop` |
+| 10 | function | `requireBrowserRecipe` |
+| 11 | state | `found` |
+| 13 | state | `body` |
+| 32 | function | `requireNativeRecipe` |
+
+## `scripts/browser-host-proof.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 20 | function | `requireDependencyClosure` |
+| 23 | state | `result` |
+| 35 | function | `proveBrowserHost` |
+| 54 | state | `cache` |
+| 57 | state | `root` |
+| 60 | state | `manifest` |
+| 66 | state | `expected` |
+| 74 | state | `browser` |
+| 78 | state | `cdp` |
+| 79 | state | `processes` |
+| 80 | state | `main` |
+| 91 | state | `executable` |
+| 94 | state | `linkedLibraries` |
+| 95 | state | `font` |
+| 112 | state | `context` |
+| 113 | state | `outside` |
+| 118 | state | `page` |
+| 120 | state | `layouts` |
+| 126 | state | `observed` |
+| 127 | state | `canvas` |
+| 161 | state | `proof` |
+| 175 | state | `folder` |
+
+## `scripts/browser-host-proof.test.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 18 | state | `helper` |
+| 19 | state | `folder` |
+| 21 | state | `root` |
+| 22 | state | `ignored` |
+| 24 | state | `packaging` |
+| 30 | state | `root` |
+| 35 | state | `result` |
+| 59 | state | `root` |
+| 60 | state | `library` |
+| 62 | state | `executable` |
+
 ## `scripts/generate-code-index.mjs`
 
 | Line | Kind | Declaration |
@@ -390,31 +443,116 @@ This index supplies exact line locations while source-file headers stay readable
 | 137 | state | `match` |
 | 147 | function | `escapeCell` |
 
+## `scripts/publication-text.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 10 | state | `maxBytes` |
+| 11 | state | `maxXmlBytes` |
+| 12 | state | `utf8` |
+| 15 | function | `requireValue` |
+| 20 | function | `boundedBytes` |
+| 21 | state | `descriptor` |
+| 26 | state | `status` |
+| 32 | state | `buffer` |
+| 33 | state | `count` |
+| 35 | state | `received` |
+| 53 | function | `crc32` |
+| 54 | state | `value` |
+| 64 | function | `wordText` |
+| 65 | state | `end` |
+| 67 | state | `offset` |
+| 80 | state | `count` |
+| 81 | state | `cursor` |
+| 82 | state | `directoryEnd` |
+| 93 | state | `names` |
+| 94 | state | `ranges` |
+| 95 | state | `text` |
+| 96 | state | `expanded` |
+| 97 | state | `xmlBytes` |
+| 103 | state | `flags` |
+| 104 | state | `method` |
+| 105 | state | `expectedCrc` |
+| 106 | state | `compressed` |
+| 107 | state | `size` |
+| 108 | state | `nameLength` |
+| 109 | state | `next` |
+| 119 | state | `nameBytes` |
+| 120 | state | `name` |
+| 141 | state | `local` |
+| 147 | state | `localNameEnd` |
+| 148 | state | `start` |
+| 149 | state | `finish` |
+| 166 | state | `encoded` |
+| 167 | state | `payload` |
+| 192 | function | `publicationText` |
+| 193 | state | `bytes` |
+
+## `scripts/publication-text.test.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 18 | function | `fixture` |
+| 19 | state | `offset` |
+| 20 | state | `local` |
+| 21 | state | `central` |
+| 23 | state | `label` |
+| 24 | state | `payload` |
+| 25 | state | `encoded` |
+| 26 | state | `crc` |
+| 33 | state | `header` |
+| 41 | state | `row` |
+| 52 | state | `directory` |
+| 53 | state | `end` |
+| 63 | function | `withBytes` |
+| 64 | state | `folder` |
+| 66 | state | `path` |
+| 74 | state | `base` |
+| 84 | state | `root` |
+| 85 | state | `text` |
+| 95 | state | `text` |
+| 111 | state | `folder` |
+| 123 | state | `folder` |
+| 125 | state | `path` |
+| 126 | state | `created` |
+| 131 | state | `source` |
+| 132 | state | `result` |
+| 146 | state | `text` |
+| 153 | state | `name` |
+| 154 | state | `bytes` |
+| 155 | state | `local` |
+| 156 | state | `central` |
+| 167 | state | `bytes` |
+| 168 | state | `central` |
+| 267 | state | `bytes` |
+| 279 | state | `root` |
+| 280 | state | `text` |
+
 ## `scripts/validate-repository.mjs`
 
 | Line | Kind | Declaration |
 |---:|---|---|
-| 11 | state | `root` |
-| 12 | state | `reportPath` |
-| 18 | state | `requiredPaths` |
-| 39 | state | `authoredExtensions` |
-| 49 | state | `checks` |
-| 53 | state | `metadata` |
-| 62 | state | `files` |
-| 75 | state | `authored` |
-| 79 | state | `prefix` |
-| 93 | state | `workflows` |
-| 97 | state | `text` |
-| 99 | state | `reference` |
-| 111 | state | `textFiles` |
-| 115 | state | `patterns` |
-| 122 | state | `text` |
-| 131 | state | `pipeline` |
-| 132 | state | `machine` |
-| 145 | state | `report` |
-| 157 | function | `record` |
-| 169 | function | `display` |
-| 173 | function | `extensionOf` |
+| 12 | state | `root` |
+| 13 | state | `reportPath` |
+| 19 | state | `requiredPaths` |
+| 40 | state | `authoredExtensions` |
+| 50 | state | `checks` |
+| 54 | state | `metadata` |
+| 63 | state | `files` |
+| 76 | state | `authored` |
+| 80 | state | `prefix` |
+| 94 | state | `workflows` |
+| 98 | state | `text` |
+| 100 | state | `reference` |
+| 112 | state | `textFiles` |
+| 116 | state | `patterns` |
+| 123 | state | `text` |
+| 132 | state | `pipeline` |
+| 133 | state | `machine` |
+| 146 | state | `report` |
+| 158 | function | `record` |
+| 170 | function | `display` |
+| 174 | function | `extensionOf` |
 
 ## `src/assembler.rs`
 
