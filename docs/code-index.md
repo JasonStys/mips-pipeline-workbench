@@ -368,9 +368,11 @@ This index supplies exact line locations while source-file headers stay readable
 | Line | Kind | Declaration |
 |---:|---|---|
 | 6 | state | `workflow` |
-| 9 | function | `requireBrowserRecipe` |
-| 10 | state | `found` |
-| 12 | state | `body` |
+| 7 | state | `desktop` |
+| 10 | function | `requireBrowserRecipe` |
+| 11 | state | `found` |
+| 13 | state | `body` |
+| 32 | function | `requireNativeRecipe` |
 
 ## `scripts/browser-host-proof.mjs`
 
