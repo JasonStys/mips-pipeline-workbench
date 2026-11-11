@@ -1,6 +1,6 @@
 {
   "name": "mips-pipeline-workbench-repository",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Repository-level validation scripts for the MIPS Pipeline Workbench",
   "type": "module",
@@ -13,4 +13,3 @@
     "node": ">=24 <25"
   }
 }
-

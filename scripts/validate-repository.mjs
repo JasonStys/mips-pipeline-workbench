@@ -44,6 +44,7 @@ const authoredExtensions = new Set([
   ".css",
   ".html",
   ".sh",
+  ".py",
 ]);
 const checks = [];
 

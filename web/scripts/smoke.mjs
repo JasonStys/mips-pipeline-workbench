@@ -12,6 +12,7 @@ const requiredFiles = [
   "assets/app.js",
   "assets/model.js",
   "assets/import.js",
+  "assets/studio.js",
   "assets/styles.css",
 ];
 const byteBudget = 90_000;

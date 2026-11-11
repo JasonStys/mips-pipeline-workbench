@@ -29,3 +29,18 @@
 - Executing arbitrary host commands or accepting public uploads.
 - Replacing a hardware description language, silicon simulator, debugger, or production emulator.
 
+
+## Native studio scope
+
+- The real Rust engine implements the documented educational ISA subset. Self-modifying programs can
+  expose a reference/pipeline mismatch, which is retained as discrepancy evidence. No commercial ISA,
+  timing, compiler, hardware execution or formal correctness certification is claimed.
+- Cache inputs are independent byte-address experiments; they are not inferred from pipeline accesses
+  and do not measure real processor caches. Zero accesses/retained cycles remain explicit missingness.
+- Workspaces are plaintext for one trusted OS owner, with no multiuser identity or remote service.
+  Back up the stopped external workspace. Admission checks refuse ordinary aliases/program paths;
+  they do not resist a concurrent namespace attacker with the same OS authority.
+- Native candidates are unsigned portable archives. Actual extracted launch/browser/persistence checks
+  do not prove an OS installer transaction, clean-machine availability or manual browser-opener behavior.
+  Platform/release availability requires its own accepted checks. WebAssembly is a future browser-only
+  option, not an implemented fallback; missing native resources fail closed.

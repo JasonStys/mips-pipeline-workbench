@@ -192,13 +192,16 @@ impl PipelineSimulator {
             let execution = id_ex.map(|stage| execute_stage(stage, &registers, ex_mem, mem_wb));
             let next_ex_mem = execution.map(|value| value.0);
             let control_target = execution.and_then(|value| value.1);
-            let executing_halt =
-                matches!(id_ex.map(|stage| stage.instruction), Some(Instruction::Halt));
+            let halt_next_pc = id_ex.and_then(|stage| {
+                matches!(stage.instruction, Instruction::Halt).then_some(stage.pc.wrapping_add(4))
+            });
             let load_stall = has_load_use_hazard(id_ex, if_id);
 
             let mut event = None;
-            let (next_if_id, next_id_ex, fetched) = if executing_halt {
+            let (next_if_id, next_id_ex, fetched) = if let Some(next_pc) = halt_next_pc {
                 halt_seen = true;
+                // Architectural completion belongs to Halt+4, not the prefetched younger cursor.
+                pc = next_pc;
                 let discarded = u64::from(if_id.is_some()) + 1;
                 flushes = flushes.saturating_add(discarded);
                 event = Some("halt: younger instructions flushed".to_owned());

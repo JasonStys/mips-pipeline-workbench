@@ -9,7 +9,7 @@ import { resolve } from "node:path";
 const files = new Map([
   ["/", ["index.html", "text/html; charset=utf-8"]],
   ["/demo-trace.json", ["demo-trace.json", "application/json"]],
-  ...["app", "model", "import"].map((name) => [
+  ...["app", "model", "import", "studio"].map((name) => [
     `/assets/${name}.js`,
     [`assets/${name}.js`, "text/javascript; charset=utf-8"],
   ]),

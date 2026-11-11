@@ -1,6 +1,19 @@
 # Rust outputs
 /target/
 
+# Private native build/test workspaces and OS-user state never enter the repository.
+/.runtime/
+/.venv/
+/release/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.coverage*
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # Web outputs and dependencies
 /web/node_modules/
 /web/build/

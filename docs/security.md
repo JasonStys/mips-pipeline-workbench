@@ -38,3 +38,27 @@ No secret is required to build, test, or run this repository. Do not add API tok
 
 Follow the private process in the root [SECURITY.md](../SECURITY.md). Do not publish exploit details before a fix is available.
 
+
+## Native application boundary
+
+The native owner verifies its packaged product/version/source, closed UI inventory and real fixed
+Rust binary before private workspace mutation. Source assembly is interpreted only by the original
+bounded educational engines, never by the OS CPU, a shell, plugin or user-selected executable.
+Workspace aliases, installed roots and linked/nonregular fixed marker/lock/SQLite recovery members
+are refused before writes. Opened member type/link count/identity is checked. These are practical
+owner-local admission controls, not a race-proof filesystem namespace against a concurrent trusted
+OS writer. The same OS user/admin can read plaintext profiles and inspect processes.
+
+A prebound port 0 loopback listener, unpredictable per-instance capability, exact authority and mutation
+Origin prevent unrelated browser origins from using the private API. The browser clears the fragment
+and retains its capability only in tab session storage. No cookies, CORS, external assets, remote
+imports, telemetry or account data exist. CSP/no-referrer/no-store/nosniff apply to fixed assets and
+errors. Connection/experiment concurrency, request/engine deadlines, source/cycle/cache and retained
+history budgets are enforced. The native owner retains the listener/profile until actual handlers and
+children finish; repeated Quit cannot become timer-based success.
+
+[GitHub's supported-language documentation](https://docs.github.com/en/code-security/concepts/code-scanning/codeql/codeql-code-scanning)
+includes Rust, Python, JavaScript/TypeScript and Actions. Separate processed `security-and-quality`
+lanes preserve the original quality suite; there are no source/query exclusions or suppression
+comments. A green job alone is not a zero-findings or production-security claim. Public source and
+unsigned portable launch do not provide code-signing certification or a clean-machine guarantee.

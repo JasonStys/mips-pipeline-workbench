@@ -57,6 +57,223 @@
         Loading trace evidence…
       </p>
 
+      <p id="standalone-note" class="status">
+        This static explorer reads trace files locally. The native application
+        adds editable assembly, real Rust execution and durable experiment
+        history.
+      </p>
+      <section
+        id="native-studio"
+        class="panel"
+        aria-labelledby="studio-title"
+        hidden
+      >
+        <h2 id="studio-title">Native assembly and cache studio</h2>
+        <p>
+          Version 1.1.0 · Created by Jason Stys. Your owned local workspace
+          retains actual inputs and engine results. Educational model only:
+          submitted assembly never executes as host machine code.
+        </p>
+        <p id="studio-status" class="status" role="status" aria-live="polite">
+          Connect through the native owner window.
+        </p>
+        <label for="experiment-title">Experiment title</label>
+        <input
+          id="experiment-title"
+          maxlength="100"
+          value="Load-use forwarding experiment"
+          required
+        />
+        <div class="split-layout">
+          <form id="assembly-form">
+            <h3>Edit and execute assembly</h3>
+            <label for="assembly-file">Import UTF-8 assembly file</label
+            ><input id="assembly-file" type="file" accept=".asm,.s,.txt" />
+            <label for="assembly-source">Assembly source</label>
+            <textarea
+              id="assembly-source"
+              rows="10"
+              spellcheck="false"
+              required
+            >
+li $t0, 64
+li $t1, 5
+sw $t1, 0($t0)
+lw $t2, 0($t0)
+addu $t3, $t2, $t1
+halt</textarea>
+            <label for="max-cycles"
+              >Maximum reference steps and pipeline cycles</label
+            ><input
+              id="max-cycles"
+              type="number"
+              min="1"
+              max="10000"
+              value="1000"
+              required
+            />
+            <label for="retained-cycles"
+              >Retained cycles (zero keeps final state only)</label
+            ><input
+              id="retained-cycles"
+              type="number"
+              min="0"
+              max="10000"
+              value="1000"
+              required
+            />
+            <button type="submit" data-work>Run assembly</button>
+          </form>
+          <form id="cache-form">
+            <h3>Independent LRU cache experiment</h3>
+            <p>
+              Byte addresses are supplied explicitly; these are not inferred
+              from the pipeline and do not measure a real processor.
+            </p>
+            <label for="cache-addresses"
+              >Decimal or 0x hexadecimal byte addresses</label
+            ><textarea id="cache-addresses" rows="5">
+0, 4, 8, 0, 16, 8, 0</textarea>
+            <label for="cache-sets">Sets</label
+            ><input
+              id="cache-sets"
+              type="number"
+              min="1"
+              max="64"
+              value="2"
+              required
+            />
+            <label for="cache-ways">Ways</label
+            ><input
+              id="cache-ways"
+              type="number"
+              min="1"
+              max="8"
+              value="2"
+              required
+            />
+            <label for="cache-line">Power-of-two line bytes</label
+            ><input
+              id="cache-line"
+              type="number"
+              min="1"
+              max="256"
+              value="4"
+              required
+            />
+            <button type="submit" data-work>Run cache experiment</button>
+          </form>
+        </div>
+        <h3>Selected actual evidence</h3>
+        <p id="comparison">No native experiment selected.</p>
+        <p id="evidence-provenance" class="provenance"></p>
+        <button id="export-experiment" type="button" disabled>
+          Export selected experiment
+        </button>
+        <label for="experiment-file">Import and rerun exported experiment</label
+        ><input
+          id="experiment-file"
+          type="file"
+          accept=".json,application/json"
+        />
+        <p>
+          Import reruns the exported input with this app's actual engine. An
+          imported report or claimed source hash is never accepted as fresh
+          verification.
+        </p>
+        <div class="split-layout">
+          <details>
+            <summary>Source listing or cache observations</summary>
+            <pre
+              id="source-listing"
+              tabindex="0"
+              role="region"
+              aria-label="Scrollable source listing"
+            ></pre>
+          </details>
+          <details>
+            <summary>
+              Independent reference state or cache configuration
+            </summary>
+            <pre
+              id="reference-state"
+              tabindex="0"
+              role="region"
+              aria-label="Scrollable reference state"
+            ></pre>
+          </details>
+          <details>
+            <summary>Pipeline sparse memory or cache ratio</summary>
+            <pre
+              id="memory-state"
+              tabindex="0"
+              role="region"
+              aria-label="Scrollable memory state"
+            ></pre>
+          </details>
+        </div>
+        <h3>Saved workspace history</h3>
+        <form id="history-form" class="cycle-controls">
+          <label for="history-query">Literal title search</label
+          ><input id="history-query" maxlength="100" />
+          <label for="history-kind">Experiment kind</label
+          ><select id="history-kind">
+            <option value="">All</option>
+            <option value="execution">Execution</option>
+            <option value="cache">Cache</option>
+          </select>
+          <button type="submit" data-work>Search saved history</button>
+        </form>
+        <p id="history-count" role="status">No saved records loaded.</p>
+        <ul id="history-list"></ul>
+        <button id="history-previous" type="button" data-work disabled>
+          Previous history page</button
+        ><button id="history-next" type="button" data-work disabled>
+          Next history page
+        </button>
+        <p>
+          <label
+            ><input id="confirm-delete" type="checkbox" /> Delete only the
+            selected saved record</label
+          >
+          <button id="delete-experiment" type="button" data-work disabled>
+            Delete selected record
+          </button>
+        </p>
+        <details>
+          <summary>Help, privacy and supported model</summary>
+          <p>
+            Start with a title and editable assembly, then Run assembly. Compare
+            all 32 final registers, sparse memory, Halt PC and retirement count;
+            inspect the physical source listing and the retained cycle explorer
+            below. A model mismatch is saved as discrepancy evidence. Invalid or
+            nonterminating inputs do not replace accepted evidence.
+          </p>
+          <p>
+            Supported subset: arithmetic/logic, immediate operations, aligned
+            loads/stores, branches, jumps, nop and halt as documented in the
+            repository ISA profile. No interrupts, devices, speculative
+            commercial CPU guarantees, self-modifying-code equivalence guarantee
+            or live hardware. Maximum 4096 words, 10000 steps/cycles and 128 KiB
+            UTF-8 source.
+          </p>
+          <p>
+            History is local plaintext for this trusted OS user, with no
+            account, telemetry, ads or external AI. Export important records and
+            back up the stopped workspace outside application files. Up to 1000
+            records and 100 MiB of evidence are retained; export and explicitly
+            delete selected records when full. A browser refresh retains this
+            tab's capability only for this server session.
+          </p>
+          <p>
+            Use Open in the native owner window to reconnect. Exit retains
+            ownership until active work finishes. Source and contact:
+            <a href="https://github.com/JasonStys">Jason Stys on GitHub</a>.
+          </p>
+        </details>
+        <button id="quit-studio" type="button">Quit owned application</button>
+      </section>
+
       <section class="panel" aria-labelledby="import-title">
         <h2 id="import-title">Explore your own trace</h2>
         <p>
@@ -220,7 +437,8 @@
     <footer>
       <p>
         Created by <a href="https://github.com/JasonStys">Jason Stys</a>. Local
-        trace exploration; no uploads, analytics, accounts, or code execution.
+        trace exploration and optional owned native model execution; no external
+        uploads, analytics or accounts.
       </p>
     </footer>
   </body>

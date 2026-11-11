@@ -6,6 +6,26 @@
 use mips_workbench::{Machine, PipelineError, PipelineSimulator, assemble};
 
 #[test]
+fn halted_pc_is_architectural_not_the_speculative_fetch_cursor()
+-> Result<(), Box<dyn std::error::Error>> {
+    for (source, expected_pc) in
+        [("halt\n", 4), ("li $t0, 1\nhalt\n", 8), ("j done\nli $t0, 99\ndone: halt\n", 12)]
+    {
+        let program = assemble(source)?;
+        let mut reference = Machine::from_program(&program);
+        assert_eq!(reference.run(128)?.final_pc, expected_pc);
+        for retained in [0, 1, 128] {
+            let result =
+                PipelineSimulator { max_cycles: 128, max_trace_cycles: retained }.run(&program)?;
+            assert_eq!(result.final_pc, expected_pc);
+            assert_eq!(&result.registers, reference.registers());
+            assert_eq!(&result.memory, reference.memory());
+        }
+    }
+    Ok(())
+}
+
+#[test]
 fn pipeline_matches_reference_for_all_examples() -> Result<(), Box<dyn std::error::Error>> {
     for source in [
         include_str!("../examples/hazard-demo.asm"),

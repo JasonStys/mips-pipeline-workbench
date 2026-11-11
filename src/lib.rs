@@ -8,6 +8,7 @@ pub mod cache;
 pub mod isa;
 pub mod machine;
 pub mod pipeline;
+pub mod studio;
 
 pub use assembler::{AssemblerError, Program, assemble};
 pub use cache::{CacheConfig, CacheError, CacheStats, SetAssociativeCache};
