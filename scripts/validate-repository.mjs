@@ -7,6 +7,7 @@
 import { readFile, stat, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { relative, resolve } from "node:path";
+import { publicationText } from "./publication-text.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const reportPath = resolve(
@@ -119,7 +120,7 @@ await record("secret-patterns", async () => {
     /AKIA[0-9A-Z]{16}/u,
   ];
   for (const path of textFiles) {
-    const text = await readFile(path, "utf8");
+    const text = path.endsWith(".docx") ? publicationText(path, display(path)) : await readFile(path, "utf8");
     if (patterns.some((pattern) => pattern.test(text))) {
       throw new Error(`${display(path)} contains a credential-like value`);
     }

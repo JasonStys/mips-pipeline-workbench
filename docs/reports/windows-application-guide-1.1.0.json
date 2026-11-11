@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "repository": "mips-pipeline-workbench",
+  "runtimeVersion": "1.1.0",
+  "runtimeSource": "22e30eb044dd2654242cd7ce3965dd783452078d",
+  "createdAt": "2026-11-11T14:11:42.769Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-1.1.0.docx",
+  "sha256": "b2dff2fa55aa05392ba7ba8223464ae1f0a1a218e7fb4a450402331c94ae942c",
+  "screenshots": [
+    {
+      "file": "01-custom-assembly.png",
+      "sha256": "f1b08c079cd663192d00324961871ae47a40bf1af24e072e8af36f036df2f078",
+      "width": 1280,
+      "height": 900,
+      "caption": "The installed app runs custom synthetic assembly and confirms that all registers, memory, retired count and architectural Halt PC agree between independent models."
+    },
+    {
+      "file": "02-cache-history-evidence.png",
+      "sha256": "2140ac0a203f81372064598028ef97b87df43e7b1a7773da4ca759a58c5c417d",
+      "width": 1280,
+      "height": 900,
+      "caption": "Actual selected cache/history evidence retains the input and source identity. Reimport reruns the input; a supplied report never becomes fresh verification by assertion alone."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "src/pipeline.rs",
+      "first": 195,
+      "last": 207,
+      "sha256": "fdd79f04f3eb23fb44879b693bf9880da8b850b44e6a3912da58f685a6c7b128",
+      "url": "https://github.com/JasonStys/mips-pipeline-workbench/blob/22e30eb044dd2654242cd7ce3965dd783452078d/src/pipeline.rs#L195"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Actual installed workflows",
+      "observed": "Two actual installed launches passed custom assembly, cache/import/export/refusal/mobile workflows and reopened three retained records. An invalid instruction was reported on physical line 3; both processes exited normally.",
+      "result": "Passed"
+    },
+    {
+      "name": "Original core and source gates",
+      "observed": "158 Python tests plus five subtests, 13 isolated GUI-notice cases, 28 Rust tests, 11 TypeScript tests and four original browsers passed; source coverage 94.55% at unchanged 90% floor. All 13 actual Rust runtime notice files were verified.",
+      "result": "Passed"
+    },
+    {
+      "name": "Assets and current security",
+      "observed": "Provider/download hashes, complete installed-byte identity, current exact-main workflows and processed raw CodeQL results passed with zero open main alerts.",
+      "result": "Passed"
+    },
+    {
+      "name": "Launch and data boundary",
+      "observed": "Individual Desktop and Start-menu targets verified. Only synthetic profiles were exercised; installed EXE tests are distinct from ordinary default-profile shortcut activation.",
+      "result": "Passed"
+    }
+  ],
+  "visualReview": {
+    "approved": true,
+    "reviewer": "audit_apps",
+    "ooxmlSchema": "passed",
+    "pages": [
+      {
+        "page": 1,
+        "sha256": "8c421a97eb000fa87c910d923daeb851b0996f59ea5621473b5fd7e8f9f7bb13"
+      },
+      {
+        "page": 2,
+        "sha256": "e85179396aaef2aada76be2e95cf0db58e29a27ffd380f573ceb29d901283c7b"
+      },
+      {
+        "page": 3,
+        "sha256": "02a64f43847c9cc520a32a9b38296546f05ed7603b0f2dfefb5aa1570c6f2c52"
+      },
+      {
+        "page": 4,
+        "sha256": "91c8bf3db59eab0db66e968003ed7429d8cc660399dfa4f196dc2528b04a5bfc"
+      }
+    ],
+    "scope": "Every current page reviewed individually; prior inspection carried only by exact unchanged page hashes. Actual installed synthetic workflows, no ordinary-user profile replay.",
+    "checkedUtc": "2026-11-11T15:14:46.344128+00:00"
+  }
+}
