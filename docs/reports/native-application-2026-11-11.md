@@ -139,3 +139,13 @@ only the expected already-destroyed-application error rather than discarding any
 exclusion or suppression was added. The follow-up local round passed135 parent tests and5 subtests at
 94.55% whole-package combined statement/branch coverage plus the mandatory13 isolated notice cases.
 A fresh processed scan/native build must confirm this exact follow-up source before acceptance.
+
+## Quit acknowledgment ordering correction
+
+The next exact-source macOS run exposed an acknowledgment race: HTTP200 could be observed before
+`stop_requested` was set because the handler wrote its response first. The operation now records
+its accepted stop request before emitting any acknowledgment bytes; normal server close still joins
+that actual handler before releasing the workspace. A deterministic actual-response-writer oracle
+requires the event already set at acknowledgment and keeps the original immediate client assertion.
+The full local round passed136 parent tests and5 subtests at94.55%, plus13 mandatory isolated notice
+cases. The failed hosted log is retained; no wait, retry, deadline or accepted status was relaxed.

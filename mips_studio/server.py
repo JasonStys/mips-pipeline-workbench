@@ -266,8 +266,8 @@ class Handler(BaseHTTPRequestHandler):
                 self.host.profile.store.delete(value["id"])
                 self.reply(200, {"deleted": value["id"]})
             elif self.path == "/api/quit" and value == {"quit": True}:
-                self.reply(200, {"closing": True})
                 self.host.stop_requested.set()
+                self.reply(200, {"closing": True})
             else:
                 self.reply(404, {"error": "Unknown operation"})
         except KeyError:

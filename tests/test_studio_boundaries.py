@@ -16,6 +16,7 @@ from test_studio_service import CACHE, EXECUTION
 
 from mips_studio import resources, store
 from mips_studio.engine import MAX_OUTPUT, Engine
+from mips_studio.server import Handler
 
 
 @pytest.mark.parametrize(
@@ -247,6 +248,21 @@ def test_unsupported_http_methods_are_policy_bound_and_do_not_echo(live):
         assert result.status_code == 501
         assert "default-src 'none'" in result.headers["content-security-policy"]
         assert result.json() == {"error": "Unsupported or malformed HTTP request"}
+
+
+def test_quit_acknowledgment_records_the_request_before_any_response_bytes(live, monkeypatch):
+    host, client = live
+    observed = []
+    actual_reply = Handler.reply
+
+    def reply(handler, status, value):
+        if status == 200 and value == {"closing": True}:
+            observed.append(host.stop_requested.is_set())
+        return actual_reply(handler, status, value)
+
+    monkeypatch.setattr(Handler, "reply", reply)
+    assert client.post("/api/quit", json={"quit": True}).status_code == 200
+    assert observed == [True]
 
 
 def test_engine_failure_and_capacity_do_not_create_successes(live, monkeypatch):
