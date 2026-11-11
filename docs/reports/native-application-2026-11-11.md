@@ -116,3 +116,15 @@ model tests passed,28 Rust tests and strict fmt/Clippy passed, and both exact-lo
 reported zero known findings. The rebuilt production UI measures65,496 bytes under the original
 90,000-byte cap. These observations remain local; exact clean native/source and hosted scan/release
 acceptance are recorded separately when actually completed.
+
+## Clean Windows packaged checkpoint
+
+A fresh clean-source build at `8fd247f19b4e696c25543a1fd63ba344105b3a4a` passed the complete extracted
+native Chromium/input/export/import/history/second-launch journey described above. Metadata explicitly
+records `sourceDirty:false`, final Python3.14.10 and the matching source-bound Rust kernel. The actual
+collected Python DLL matched the patched SDK digest before archiving. Both native launches exited0/0
+and the second retained exactly three completed experiments with a fresh nonce/invalid old capability.
+The portable ZIP SHA256 is `792713d3c0d42b308214ae1f690a8860707c2d439eef6c0b967260eff68a2b74`.
+This remains a local candidate checkpoint; its source and bytes are not a published download, a
+clean-machine test or an OS installer transaction. The following documentation-only update records
+that observation, and hosted exact-current-source builds still run independently.
