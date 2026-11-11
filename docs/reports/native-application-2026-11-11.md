@@ -128,3 +128,14 @@ The portable ZIP SHA256 is `792713d3c0d42b308214ae1f690a8860707c2d439eef6c0b9672
 This remains a local candidate checkpoint; its source and bytes are not a published download, a
 clean-machine test or an OS installer transaction. The following documentation-only update records
 that observation, and hosted exact-current-source builds still run independently.
+
+## Processed quality findings follow-up
+
+The first actual PR scan reported two `py/empty-except` maintainability findings even though all16
+workflow checks were green. Normal Ctrl+C already entered final cleanup, but its intent was implicit;
+the native entrypoint now sets its actual stop-request event before normal drain. The real entrypoint
+regression verifies that event and actual listener/profile release. Tk fixture cleanup now verifies
+only the expected already-destroyed-application error rather than discarding any Tcl error. No query,
+exclusion or suppression was added. The follow-up local round passed135 parent tests and5 subtests at
+94.55% whole-package combined statement/branch coverage plus the mandatory13 isolated notice cases.
+A fresh processed scan/native build must confirm this exact follow-up source before acceptance.

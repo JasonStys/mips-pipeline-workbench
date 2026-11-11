@@ -867,6 +867,15 @@ This index supplies exact line locations while source-file headers stay readable
 | 160 | variable | `host` |
 | 172 | variable | `line` |
 | 172 | variable | `rows` |
+| 178 | function | `test_keyboard_interrupt_requests_actual_owned_drain_not_silent_success` |
+| 178 | parameter | `monkeypatch` |
+| 178 | parameter | `tmp_path` |
+| 179 | variable | `actual_start` |
+| 180 | variable | `observed` |
+| 182 | function | `start` |
+| 182 | parameter | `args` |
+| 183 | variable | `host` |
+| 186 | function | `interrupted` |
 
 ## `tests/test_portable_archive.py`
 

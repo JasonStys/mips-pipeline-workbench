@@ -204,7 +204,7 @@ def run():
         try:
             host.stop_requested.wait()
         except KeyboardInterrupt:
-            pass
+            host.stop_requested.set()
         finally:
             host.close()
     else:

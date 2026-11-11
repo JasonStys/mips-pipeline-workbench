@@ -27,8 +27,8 @@ def window(tmp_path, monkeypatch):
             owner.host.close()
         try:
             owner.root.destroy()
-        except tk.TclError:
-            pass
+        except tk.TclError as error:
+            assert "application has been destroyed" in str(error)
 
 
 def test_real_owner_open_reopen_help_choice_and_completion(window, monkeypatch, tmp_path):
@@ -172,4 +172,29 @@ def test_real_no_window_entry_uses_owned_quit_and_explicit_workspace(tmp_path, m
     rows = [json.loads(line) for line in capsys.readouterr().out.splitlines()]
     assert rows[0]["event"] == "ready" and "capability" not in rows[0]
     assert rows[1]["event"] == "test-session" and rows[1]["capability"] == observed[0].capability
+    assert observed[0].closed and observed[0].profile.descriptor == -1
+
+
+def test_keyboard_interrupt_requests_actual_owned_drain_not_silent_success(tmp_path, monkeypatch):
+    actual_start = desktop.start
+    observed = []
+
+    def start(*args):
+        host = actual_start(*args)
+        observed.append(host)
+
+        def interrupted():
+            raise KeyboardInterrupt
+
+        monkeypatch.setattr(host.stop_requested, "wait", interrupted)
+        return host
+
+    monkeypatch.setattr(desktop, "start", start)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["mips", "--no-window", "--no-browser", "--profile", str(tmp_path / "workspace")],
+    )
+    desktop.run()
+    assert observed[0].stop_requested.is_set()
     assert observed[0].closed and observed[0].profile.descriptor == -1
