@@ -10,7 +10,7 @@
     {
       "name": "source-headers",
       "status": "pass",
-      "evidence": "63 authored source files contain headers"
+      "evidence": "66 authored source files contain headers"
     },
     {
       "name": "workflow-pins",
@@ -20,7 +20,7 @@
     {
       "name": "secret-patterns",
       "status": "pass",
-      "evidence": "121 text files scanned for credential patterns"
+      "evidence": "125 text files scanned for credential patterns"
     },
     {
       "name": "bounded-execution",

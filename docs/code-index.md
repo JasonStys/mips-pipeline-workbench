@@ -363,6 +363,52 @@ This index supplies exact line locations while source-file headers stay readable
 | 233 | parameter | `trace` |
 | 233 | parameter | `value` |
 
+## `scripts/browser-host-policy.test.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 6 | state | `workflow` |
+| 9 | function | `requireBrowserRecipe` |
+| 10 | state | `found` |
+| 12 | state | `body` |
+
+## `scripts/browser-host-proof.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 20 | function | `requireDependencyClosure` |
+| 23 | state | `result` |
+| 35 | function | `proveBrowserHost` |
+| 54 | state | `cache` |
+| 57 | state | `root` |
+| 60 | state | `manifest` |
+| 66 | state | `expected` |
+| 74 | state | `browser` |
+| 78 | state | `cdp` |
+| 79 | state | `processes` |
+| 80 | state | `main` |
+| 91 | state | `executable` |
+| 94 | state | `linkedLibraries` |
+| 95 | state | `font` |
+| 112 | state | `context` |
+| 113 | state | `outside` |
+| 118 | state | `page` |
+| 120 | state | `layouts` |
+| 126 | state | `observed` |
+| 127 | state | `canvas` |
+| 161 | state | `proof` |
+| 175 | state | `folder` |
+
+## `scripts/browser-host-proof.test.mjs`
+
+| Line | Kind | Declaration |
+|---:|---|---|
+| 17 | state | `root` |
+| 22 | state | `result` |
+| 46 | state | `root` |
+| 47 | state | `library` |
+| 49 | state | `executable` |
+
 ## `scripts/generate-code-index.mjs`
 
 | Line | Kind | Declaration |
