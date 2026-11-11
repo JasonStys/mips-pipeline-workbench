@@ -20,9 +20,13 @@ from pathlib import Path
 if __package__:
     from .portable_archive import archive_metadata, create_archive, extract_archive, require
     from .runtime_notices import collect
+    from .rust_notices import collect as collect_rust
+    from .rust_notices import verify as verify_rust
 else:
     from portable_archive import archive_metadata, create_archive, extract_archive, require
     from runtime_notices import collect
+    from rust_notices import collect as collect_rust
+    from rust_notices import verify as verify_rust
 
 ROOT = Path(__file__).resolve().parents[1]
 APPLICATION = "MipsPipelineWorkbench"
@@ -174,6 +178,8 @@ def main(argv=None):
     output.mkdir()
     generated = output / "metadata"
     generated.mkdir()
+    rust_terms = generated / "rust"
+    rust_manifest = collect_rust(ROOT, rust_terms)
     identity_file = generated / "RELEASE.json"
     identity_file.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     notice_file = generated / "RUNTIME_NOTICES.txt"
@@ -201,6 +207,7 @@ def main(argv=None):
         (engine, "engine"),
         (identity_file, "."),
         (notice_file, "licenses"),
+        (rust_terms, "licenses/rust"),
         (ROOT / "LICENSE", "licenses/project"),
         (ROOT / "licenses/PYTHON.txt", "licenses/python"),
     ]:
@@ -237,6 +244,11 @@ def main(argv=None):
     require(archive_metadata(archive, APPLICATION) == metadata, "Archive metadata mismatch")
     with tempfile.TemporaryDirectory(prefix="mips-extracted-") as temporary:
         extracted = extract_archive(archive, Path(temporary) / "unpacked", APPLICATION)
+        verify_rust(
+            extracted / "_internal/licenses/rust",
+            rust_manifest["toolchain"],
+            expected=rust_manifest,
+        )
         executable = extracted / (APPLICATION + (".exe" if sys.platform == "win32" else ""))
         subprocess.run(
             [

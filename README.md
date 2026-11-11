@@ -46,6 +46,12 @@ candidate results and pending platform/hosted checks are recorded in the
 clean-machine installation is claimed until the matching release is separately accepted.
 See the [application guide and file map](docs/native-application.md).
 
+Native distributions must also retain the actual pinned Rust standard-library copyright document,
+its complete supplied license directory (including MIT and Apache terms), and a separate hashed
+notice inventory. The extracted application acceptance refuses missing or changed notices before
+launch. This packaging follow-up does not change simulator behavior, product1.1.0 or `RELEASE.json`.
+See [the notice validation report](docs/reports/rust-runtime-notices-2026-11-11.md).
+
 ## CLI and standalone browser quick start
 
 Prerequisites: Rust 1.98 and Node.js 24 LTS.

@@ -71,6 +71,19 @@ Use final patched Python 3.14.10+, the repository's pinned Rust 1.98.1 and Node 
 application itself needs no Python, Rust, IDE or Docker setup. Development-only and packaging tools
 have separate exact hash locks; the application Python code uses the standard library.
 
+The pinned toolchain includes `rust-docs` because the native kernel statically includes Rust's
+standard library. The builder reads the actual active1.98.1 sysroot's `COPYRIGHT-library.html` and
+every file supplied in its `licenses` directory, preserving MIT, Apache and third-party terms
+verbatim under `_internal/licenses/rust`. `RUST_RUNTIME_PROVENANCE.json` records only the compiler
+version and relative notice SHA256 inventory; it contains no local toolchain paths and does not
+modify the application `RELEASE.json` schema. Before running the extracted binary, packaging compares
+that inventory to the source-collected manifest. The standalone native consumer also requires the
+complete manifest and hashes. Missing terms are a packaging failure, not an optional warning.
+
+This retains vendor notices; it is not a legal-compliance certification. The Rust compiler itself
+is not redistributed. This project's Cargo lock has no external application crates. Tcl/Tk, Python,
+PyInstaller and authored MIT notices retain their separate existing collection and validation.
+
 ```bash
 python -m venv .venv
 python -m pip install --require-hashes -r requirements-dev.lock -r requirements-package.lock
@@ -112,6 +125,7 @@ POSIX uses tar.gz to preserve internal PyInstaller links and executable modes.
 | `tools/package_app.py` | Coherent clean-source build, actual Rust provenance, PyInstaller and extracted acceptance |
 | `tools/portable_archive.py` | Bounded ZIP/tar member/link validation, fresh extraction and source manifest checks |
 | `tools/runtime_notices.py` | Actual loaded Tcl/Tk notices, exact reviewed Mac source terms and Python/build notices |
+| `tools/rust_notices.py` | Pinned actual Rust sysroot copyright/license collection, bounded reads and extracted inventory/hash validation |
 | `tools/smoke_app.py`, `native_feature_smoke.mjs` | Actual compiled browser journey, exports/refusals and second-launch persistence |
 | `tools/python_index.py` | Parse exact Python declaration/parameter/variable locations without executing source |
 | `tests/studio_tests.rs`, `pipeline_tests.rs` | Independent numerical/model-mismatch/physical-line/Halt-PC regression oracles |
@@ -122,6 +136,7 @@ POSIX uses tar.gz to preserve internal PyInstaller links and executable modes.
 | `tests/test_owner_window.py` | Real Tk controls, retryable setup, owned close, visible failure and no-default-profile checks |
 | `tests/test_native_packaging.py`, `test_portable_archive.py` | Source/version/security-floor/dirty-CI and real archive safety controls |
 | `tests/test_runtime_notices.py`, `runtime_notice_cases.py` | Mandatory 13 real Tcl notice cases in one fresh bounded interpreter |
+| `tests/test_rust_notices.py` | Independent real notice-file, compiler-identity, alias, missing/tampered/inventory and byte/member-bound negatives |
 | `requirements.lock` | Explicit empty third-party application runtime graph |
 | `requirements-dev.in`, `.lock` | Exact hash-locked source/test/audit tools, including safe private JUnit parsing |
 | `requirements-package.in`, `.lock` | Exact hash-locked PyInstaller build tools, separate from app runtime |
