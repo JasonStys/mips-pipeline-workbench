@@ -405,11 +405,16 @@ This index supplies exact line locations while source-file headers stay readable
 
 | Line | Kind | Declaration |
 |---:|---|---|
-| 17 | state | `root` |
-| 22 | state | `result` |
-| 46 | state | `root` |
-| 47 | state | `library` |
-| 49 | state | `executable` |
+| 18 | state | `helper` |
+| 19 | state | `folder` |
+| 21 | state | `root` |
+| 22 | state | `ignored` |
+| 24 | state | `packaging` |
+| 30 | state | `root` |
+| 35 | state | `result` |
+| 59 | state | `root` |
+| 60 | state | `library` |
+| 62 | state | `executable` |
 
 ## `scripts/generate-code-index.mjs`
 

@@ -172,7 +172,7 @@ export async function proveBrowserHost() {
       scope:
         "Actual locked Chromium/installed library closure and Latin text/layout only. Original full app/package browser commands remain separately mandatory; no multilingual font or clean-machine claim.",
     };
-    const folder = resolve(root, "artifacts/browser-host");
+    const folder = resolve(root, ".runtime/browser-host");
     mkdirSync(folder, { recursive: true });
     writeFileSync(
       resolve(folder, "proof.json"),

@@ -6,12 +6,25 @@
  */
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdtempSync, writeFileSync, renameSync, copyFileSync } from "node:fs";
+import { mkdtempSync, writeFileSync, renameSync, copyFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import process from "node:process";
 import { requireDependencyClosure } from "./browser-host-proof.mjs";
+
+test("actual host receipt uses the ignored private build tree without weakening clean-source admission", () => {
+  const helper = readFileSync(new URL("./browser-host-proof.mjs", import.meta.url), "utf8");
+  const folder = /const folder = resolve\(root, "([^"]+)"\)/.exec(helper)?.[1];
+  assert.equal(folder, ".runtime/browser-host");
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+  const ignored = execFileSync("git", ["-c", "safe.directory=" + root.replaceAll("\\", "/"), "check-ignore", "--no-index", folder + "/proof.json"], { cwd: root, encoding: "utf8", timeout: 5_000, maxBuffer: 65_536 });
+  assert.equal(ignored.trim(), folder + "/proof.json");
+  const packaging = readFileSync(new URL("../tools/package_app.py", import.meta.url), "utf8");
+  assert.ok(packaging.includes('require(not changed or allow_dirty, "Clean source required; label local candidates explicitly")'));
+  assert.ok(packaging.includes('"Dirty override forbidden in CI"'));
+});
 
 test("dependency-only policy checks load the actual helper without installed packages", () => {
   const root = mkdtempSync(join(tmpdir(), "mips-owned-no-dependencies-"));
