@@ -55,7 +55,7 @@ class Window:
         from tkinter import filedialog, ttk
 
         self.root = tk.Tk()
-        self.root.title("MIPS Pipeline Workbench Â· Jason Stys Â· 1.1.0")
+        self.root.title("MIPS Pipeline Workbench | Jason Stys | 1.1.0")
         self.root.geometry("680x390")
         self.root.minsize(560, 350)
         self.root.protocol("WM_DELETE_WINDOW", self.quit)
@@ -72,7 +72,7 @@ class Window:
         )
         ttk.Label(
             content,
-            text="Jason Stys Â· educational Rust execution and independent trace comparison",
+            text="Jason Stys | educational Rust execution and independent trace comparison",
         ).pack(anchor="w", pady=8)
         ttk.Label(
             content,
@@ -179,7 +179,7 @@ class Window:
                 "Close did not complete. Keep this window open; workspace was "
                 "not reset. Reopen the app only after this owner has exited."
             )
-            self.root.title("MIPS Pipeline Workbench Â· close failed")
+            self.root.title("MIPS Pipeline Workbench | close failed")
             return
         if self.host is not None and self.host.stop_requested.is_set():
             self.quit()

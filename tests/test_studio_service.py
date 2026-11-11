@@ -232,6 +232,20 @@ def test_wrong_framing_refused_before_body_is_sent(live, headers):
         connection.close()
 
 
+def test_actual_latin1_capability_header_is_an_explicit_forbidden_response(live):
+    host, _client = live
+    connection = http.client.HTTPConnection("127.0.0.1", host.server.server_port, timeout=2)
+    try:
+        connection.putrequest("GET", "/api/history")
+        connection.putheader("X-Mips-Capability", b"caf\xe9")
+        connection.endheaders()
+        response = connection.getresponse()
+        assert response.status == 403
+        assert json.loads(response.read())["error"] == "Open this app from its native owner window"
+    finally:
+        connection.close()
+
+
 def test_history_literal_filters_pages_exact_export_delete_and_reopen(tmp_path, engine):
     profile = Profile(tmp_path / "workspace")
     report = engine.run(CACHE)

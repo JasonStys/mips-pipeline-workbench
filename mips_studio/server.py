@@ -144,7 +144,9 @@ class Handler(BaseHTTPRequestHandler):
             return False
         capabilities = self.headers.get_all("X-Mips-Capability") or []
         if private and (
-            len(capabilities) != 1 or not hmac.compare_digest(capabilities[0], self.host.capability)
+            len(capabilities) != 1
+            or not capabilities[0].isascii()
+            or not hmac.compare_digest(capabilities[0], self.host.capability)
         ):
             self.reply(403, {"error": "Open this app from its native owner window"})
             return False
@@ -253,7 +255,7 @@ class Handler(BaseHTTPRequestHandler):
                     raise ValueError("Provide title and input only")
                 title = value["title"]
                 if not isinstance(title, str) or not 1 <= len(title.strip()) <= 100:
-                    raise ValueError("Give this experiment a title of 1â€“100 characters")
+                    raise ValueError("Give this experiment a title of 1-100 characters")
                 report = self.host.engine.run(value["input"])
                 if report.get("status") == "error":
                     self.reply(422, {"diagnostic": report})

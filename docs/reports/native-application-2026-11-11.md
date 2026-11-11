@@ -149,3 +149,13 @@ that actual handler before releasing the workspace. A deterministic actual-respo
 requires the event already set at acknowledgment and keeps the original immediate client assertion.
 The full local round passed136 parent tests and5 subtests at94.55%, plus13 mandatory isolated notice
 cases. The failed hosted log is retained; no wait, retry, deadline or accepted status was relaxed.
+
+## Independent editorial and malformed-header review
+
+An independent source review found double-decoded punctuation in several Python owner/title/error
+literals. They are now plain ASCII, and the actual Tk owner title is asserted. The same review found
+that compare_digest rejects non-ASCII strings by raising TypeError; the API now refuses that malformed
+capability explicitly before comparison. A real Latin1 wire-header regression requires HTTP403 JSON.
+The full local round passed137 parent tests and5 subtests at94.55%, plus13 isolated notice cases.
+Existing ownership, alias admission, fixed engine invocation and no-false-success history boundaries
+were independently reviewed without another material blocker; current hosted checks remain mandatory.

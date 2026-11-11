@@ -122,7 +122,7 @@ class Store:
         "Store completed evidence; retain mismatches honestly and reject diagnostics."
         value = request(value)
         if not isinstance(title, str) or not 1 <= len(title.strip()) <= 100:
-            raise ValueError("Give this experiment a title of 1â€“100 characters")
+            raise ValueError("Give this experiment a title of 1-100 characters")
         if report.get("status") not in ("verified", "mismatch", "completed"):
             raise ValueError("Diagnostics are not completed history entries")
         evidence = {
