@@ -56,18 +56,58 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
 select,
-input[type="number"] {
+input:not([type="range"]):not([type="file"]):not([type="checkbox"]),
+textarea {
   max-width: 100%;
   color: var(--ink);
   background: var(--surface-raised);
   border: 1px solid var(--line);
   border-radius: 0.5rem;
   padding: 0.65rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  font-family: ui-monospace, monospace;
+}
+#native-studio label {
+  display: block;
+  margin-block: 0.75rem 0.25rem;
+}
+#native-studio button {
+  margin-block: 0.5rem;
+}
+#native-studio .split-layout {
+  gap: 2rem;
+}
+#native-studio pre {
+  overflow: auto;
+  max-height: 24rem;
+  white-space: pre;
+  font-size: 0.85rem;
+}
+.provenance {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+}
+#history-list {
+  padding-left: 1rem;
+}
+#history-list button {
+  text-align: left;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 input[type="file"] {

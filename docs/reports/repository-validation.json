@@ -10,17 +10,17 @@
     {
       "name": "source-headers",
       "status": "pass",
-      "evidence": "31 authored source files contain headers"
+      "evidence": "59 authored source files contain headers"
     },
     {
       "name": "workflow-pins",
       "status": "pass",
-      "evidence": "2 workflows use immutable action references"
+      "evidence": "3 workflows use immutable action references"
     },
     {
       "name": "secret-patterns",
       "status": "pass",
-      "evidence": "71 text files scanned for credential patterns"
+      "evidence": "113 text files scanned for credential patterns"
     },
     {
       "name": "bounded-execution",

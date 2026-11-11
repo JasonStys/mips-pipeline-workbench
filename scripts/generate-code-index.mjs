@@ -6,14 +6,25 @@
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
+import { execFileSync } from "node:child_process";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const indexPath = resolve(repositoryRoot, "docs", "code-index.md");
-const sourceRoots = ["src", "tests", "web/src", "web/tests", "web/scripts", "scripts", "examples"];
-const includedExtensions = new Set([".rs", ".ts", ".mjs", ".asm"]);
+const sourceRoots = [
+  "src",
+  "tests",
+  "web/src",
+  "web/tests",
+  "web/scripts",
+  "scripts",
+  "examples",
+  "mips_studio",
+  "tools",
+];
+const includedExtensions = new Set([".rs", ".ts", ".mjs", ".asm", ".py"]);
 const checkOnly = process.argv.includes("--check");
 
-const files = [];
+const files = [resolve(repositoryRoot, "launcher.py")];
 for (const root of sourceRoots) {
   await collectFiles(resolve(repositoryRoot, root), files);
 }
@@ -59,12 +70,19 @@ async function renderIndex(paths) {
     const displayPath = relative(repositoryRoot, path).replaceAll("\\", "/");
     const text = await readFile(path, "utf8");
     const symbols = extractSymbols(displayPath, text);
-    output.push(`## \`${displayPath}\``, "", "| Line | Kind | Declaration |", "|---:|---|---|");
+    output.push(
+      `## \`${displayPath}\``,
+      "",
+      "| Line | Kind | Declaration |",
+      "|---:|---|---|",
+    );
     if (symbols.length === 0) {
       output.push("| — | file | No named declarations |", "");
     } else {
       for (const symbol of symbols) {
-        output.push(`| ${symbol.line} | ${symbol.kind} | \`${escapeCell(symbol.name)}\` |`);
+        output.push(
+          `| ${symbol.line} | ${symbol.kind} | \`${escapeCell(symbol.name)}\` |`,
+        );
       }
       output.push("");
     }
@@ -73,19 +91,45 @@ async function renderIndex(paths) {
 }
 
 function extractSymbols(path, text) {
+  if (path.endsWith(".py"))
+    return JSON.parse(
+      execFileSync(
+        process.env.MIPS_INDEX_PYTHON ?? "python",
+        [
+          resolve(repositoryRoot, "tools/python_index.py"),
+          resolve(repositoryRoot, path),
+        ],
+        { encoding: "utf8", timeout: 10000, maxBuffer: 1024 * 1024 },
+      ),
+    );
   const patterns = path.endsWith(".rs")
     ? [
-        ["type", /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:struct|enum|trait|type)\s+([A-Za-z_][A-Za-z0-9_]*)/],
-        ["function", /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:const\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)/],
+        [
+          "type",
+          /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:struct|enum|trait|type)\s+([A-Za-z_][A-Za-z0-9_]*)/,
+        ],
+        [
+          "function",
+          /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:const\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)/,
+        ],
         ["constant", /^\s*(?:pub(?:\([^)]*\))?\s+)?const\s+([A-Z][A-Z0-9_]*)/],
         ["implementation", /^\s*impl(?:<[^>]+>)?\s+([A-Za-z_][A-Za-z0-9_]*)/],
       ]
     : path.endsWith(".asm")
       ? [["label", /^\s*([A-Za-z_][A-Za-z0-9_]*):/]]
       : [
-          ["type", /^\s*(?:export\s+)?(?:interface|type|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/],
-          ["function", /^\s*(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][A-Za-z0-9_$]*)/],
-          ["state", /^\s*(?:export\s+)?(?:const|let)\s+([A-Za-z_$][A-Za-z0-9_$]*)/],
+          [
+            "type",
+            /^\s*(?:export\s+)?(?:interface|type|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/,
+          ],
+          [
+            "function",
+            /^\s*(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][A-Za-z0-9_$]*)/,
+          ],
+          [
+            "state",
+            /^\s*(?:export\s+)?(?:const|let)\s+([A-Za-z_$][A-Za-z0-9_$]*)/,
+          ],
         ];
   const symbols = [];
   for (const [index, line] of text.split(/\r?\n/u).entries()) {
@@ -103,4 +147,3 @@ function extractSymbols(path, text) {
 function escapeCell(value) {
   return value.replaceAll("|", "\\|").replaceAll("`", "\\`");
 }
-

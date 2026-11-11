@@ -19,4 +19,5 @@ await cp(
 await cp(resolve("build", "src", "app.js"), resolve(assets, "app.js"));
 await cp(resolve("build", "src", "model.js"), resolve(assets, "model.js"));
 await cp(resolve("build", "src", "import.js"), resolve(assets, "import.js"));
+await cp(resolve("build", "src", "studio.js"), resolve(assets, "studio.js"));
 await cp(resolve("src", "styles.css"), resolve(assets, "styles.css"));

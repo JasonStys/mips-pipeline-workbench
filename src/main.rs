@@ -10,6 +10,8 @@ use std::fs;
 use std::path::Path;
 use std::time::Instant;
 
+mod studio_cli;
+
 const DEFAULT_LIMIT: u64 = 100_000;
 const BENCHMARK_ITERATIONS: u32 = 200;
 
@@ -31,6 +33,7 @@ fn run_cli() -> Result<(), Box<dyn Error>> {
         Some("run") => command_run(&arguments[1..]),
         Some("pipeline") => command_pipeline(&arguments[1..]),
         Some("benchmark") => command_benchmark(&arguments[1..]),
+        Some("studio") => studio_cli::command(&arguments[1..]),
         Some(command) => Err(format!("unknown command `{command}`; use `help` for usage").into()),
     }
 }

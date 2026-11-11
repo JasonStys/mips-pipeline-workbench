@@ -35,8 +35,8 @@
 1. Build with `cargo build --release --locked`.
 2. Build and smoke the visualizer with `npm --prefix web test && npm --prefix web run smoke`.
 3. Exercise `run`, `pipeline`, and `assemble` against `examples/hazard-demo.asm`.
-4. Build the container: `docker build --tag mips-pipeline-workbench:1.0.0 .`.
-5. Create a signed version tag only after the default-branch workflows pass.
+4. Build the container: `docker build --tag mips-pipeline-workbench:1.1.0 .`.
+5. Create an immutable version tag only after the default-branch workflows pass; describe signing status accurately.
 
 ### Post-release
 
@@ -47,7 +47,7 @@
 
 ## Rollback
 
-No database or remote state is mutated. Roll back by returning consumers to the preceding signed tag or container digest. Regenerate traces with that version because trace schema compatibility is guaranteed only for explicitly documented schema versions.
+The original CLI/container uses files; the native application additionally retains an external SQLite workspace. Stop the app and back up that workspace before changing versions. Preserve old software folders and do not pair an older unsupported schema with newer data. There is no remote state migration. Trace schema compatibility applies only to documented schema versions.
 
 ## Rollback triggers
 
@@ -60,8 +60,18 @@ No database or remote state is mutated. Roll back by returning consumers to the 
 ## Troubleshooting
 
 - `code index is stale`: run `npm run code-index`, review every line change, and commit the regenerated file.
-- Rust toolchain mismatch: run `rustup show`; `rust-toolchain.toml` should select 1.98.0.
+- Rust toolchain mismatch: run `rustup show`; `rust-toolchain.toml` should select 1.98.1.
 - npm engine mismatch: use Node 24 LTS; the project intentionally rejects Current/EOL lines.
 - Trace diff after an unrelated change: verify deterministic stage labels and counters before updating the fixture.
 - Execution limit failure: inspect the program for a missing `halt` or loop termination; raise the limit only for a reviewed finite program.
 
+
+## Native application delivery
+
+See [the native application guide](native-application.md) for actual owner/workspace controls,
+record/byte limits and clean-source build commands. Packaging tests the archive after bounded safe
+extraction, drives real custom assembly/cache/history/export/import-rerun in Chromium, normally exits
+and launches the same actual executable again to verify persistence. It emits a checksum only after
+acceptance. The Windows package is a portable ZIP, not an installed MSI/NSIS transaction. Do not
+claim a platform/download is available until that platform's actual native checks and root-reviewed
+release proof pass. Existing published editions and user profiles are preserved.

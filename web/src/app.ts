@@ -12,6 +12,7 @@ import {
 } from "./model.js";
 
 import { parseTraceText, readTraceFile } from "./import.js";
+import { startStudio } from "./studio.js";
 
 const REGISTER_NAMES = [
   "$zero",
@@ -86,6 +87,7 @@ async function start(): Promise<void> {
   });
   window.addEventListener("pagehide", stopPlayback);
   await loadDemo();
+  await startStudio(adoptTrace);
 }
 
 /** Load only the shipped example; local files never leave this browser. */
