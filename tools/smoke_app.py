@@ -16,6 +16,13 @@ from pathlib import Path
 
 import httpx
 
+if __package__:
+    from .rust_notices import MANIFEST
+    from .rust_notices import verify as verify_rust
+else:
+    from rust_notices import MANIFEST
+    from rust_notices import verify as verify_rust
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -81,6 +88,8 @@ def main():
         metadata["version"] == "1.1.0" and metadata["product"] == "mips-pipeline-workbench",
         "Wrong native product",
     )
+    rust_terms = executable.parent / "_internal/licenses/rust"
+    rust_manifest = verify_rust(rust_terms, "1.98.1")
     args.output.mkdir(parents=True, exist_ok=False)
     processes = []
     with tempfile.TemporaryDirectory(prefix="mips-native-workspace-") as temporary:
@@ -151,6 +160,13 @@ def main():
                 "sourceCommit": source,
                 "sourceDirty": metadata["sourceDirty"],
                 "engineSha256": metadata["engineSha256"],
+                "rustRuntimeNotices": {
+                    "toolchain": rust_manifest["toolchain"],
+                    "files": len(rust_manifest["files"]),
+                    "manifestSha256": hashlib.sha256(
+                        (rust_terms / MANIFEST).read_bytes()
+                    ).hexdigest(),
+                },
                 "normalExits": [0, 0],
                 "retainedRecords": 3,
                 "actualExtractedExecutable": str(executable),
